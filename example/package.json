@@ -1,0 +1,28 @@
+{
+  "name": "bento-example",
+  "description": "Example use of bento",
+  "version": "1.0.0",
+  "private": true,
+  "author": "Fred Parke <fjcparke@gmail.com>",
+  "license": "ISC",
+  "scripts": {
+    "start": "gatsby develop",
+    "build": "gatsby build",
+    "serve": "gatsby serve",
+    "clean": "gatsby clean"
+  },
+  "dependencies": {
+    "@freddybushboy/bento": "1.0.0",
+    "deepmerge": "^4.2.2",
+    "gatsby": "2.25.4",
+    "react": "17.0.1",
+    "react-dom": "17.0.1",
+    "styled-components": "^5.2.1"
+  },
+  "devDependencies": {
+    "@types/node": "14.14.6",
+    "@types/react": "16.9.56",
+    "@types/react-dom": "16.9.9",
+    "typescript": "4.0.5"
+  }
+}
