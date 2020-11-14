@@ -21,7 +21,7 @@ As well as **outlining a suggested theme structure**, there are some concepts he
 
 The theme defines a set of values and constraints to keep consistency with the brand. The values in the theme can be used directly throughout applications.
 
-"Components" add an extra layer, containing component-specific values ideally made up from the theme values above (see `/src/design-system` for an example). Components also support "variants", "elevations", and "additional styles".
+"Components" add an extra layer, containing component-specific values ideally made up from the theme values above (see `/example`). Components also support "variants", "elevations", and "additional styles".
 
 | Key                   | Type                              | Description                                                 |
 | --------------------- | --------------------------------- | ----------------------------------------------------------- |
@@ -83,9 +83,32 @@ const CTA = styled.button<ThemeComponent>(
 
 Indicates a value that can be "responsive" - either a single value or a responsive array.
 
+```tsx
+type CTAComponent = ComponentTheme<{
+  fontWeight: ResponsiveValue<string>;
+  fontSize: ResponsiveValue<string>;
+}>;
+
+const cta: CTAComponent = {
+  fontWeight: "bold",
+  fontSize: ["16px", "18px"],
+};
+```
+
 ### ColorPalette
 
-A group of colours containing a base, alt, contrast, and muted colour. Palettes classify a set of colours with defined contrast relationships. Essentially, `base` and `alt` should both be meet AA contrast requirements against the "canvas" color (generally white). The `contast` and `muted` colours should meet AA contrast against `base` and `alt`.
+A group of colours containing a base, alt, contrast, and muted colour.
+
+```tsx
+const PrimaryPalette: ColorPalette = {
+  base: "#0C7494",
+  alt: "#096885",
+  contrast: "#F3F7F9",
+  muted: "#FFFFFF",
+};
+```
+
+Palettes classify a set of colours with defined contrast relationships. Essentially, `base` and `alt` should both be meet AA contrast requirements against the "canvas" color (generally white). The `contast` and `muted` colours should meet AA contrast against `base` and `alt`.
 
 Using palettes we can reliably put together components without needing to know what the colors are specifically. For example:
 
