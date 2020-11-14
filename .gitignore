@@ -2,7 +2,7 @@
 node_modules
 
 # build
-/lib/dist
+/bento/dist
 
 # cache
 .cache
