@@ -1,39 +1,6 @@
-import { CSSObject } from "styled-components";
-import { ComponentTheme, ResponsiveValue, Theme as SpecTheme } from "bento";
+import { Theme } from "bento";
 
-// Names values it _must_ have - standard, etc.
-// Adds its components and styles.
-export type Theme = SpecTheme & {
-  components: {
-    cta: ComponentTheme<{
-      borderRadius: ResponsiveValue<string>;
-      elevations: { raised: CSSObject };
-    }>;
-  };
-};
-
-export type DefaultTokens = Pick<
-  Theme,
-  | "spaces"
-  | "responsiveSpaces"
-  | "sizes"
-  | "colors"
-  | "palettes"
-  | "fontSizes"
-  | "responsiveFontSizes"
-  | "fonts"
-  | "fontWeights"
-  | "lineHeights"
-  | "breakpoints"
-  | "breakpointAliases"
-  | "radii"
-  | "borderWidths"
-  | "borderStyles"
-  | "shadows"
-  | "zIndices"
-  | "opacities"
-  | "styles"
->;
+export type DefaultTokens = Omit<Theme, "components">;
 
 export const defaultTokens: DefaultTokens = {
   spaces: [

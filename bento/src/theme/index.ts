@@ -37,7 +37,7 @@ export type Theme = {
   breakpointAliases: Record<string, number>;
   // Borders
   radii: Record<string, string>;
-  borderWidths: Record<string, number>;
+  borderWidths: Record<string, string>;
   borderStyles: Record<string, string>;
   // Elevation
   shadows: Record<string, string>;

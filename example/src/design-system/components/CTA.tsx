@@ -44,7 +44,7 @@ export const CTA = styled.button<ThemeComponent>(
     // Set responsive style with multiple values.
     ${useResponsiveStyle("font-size", responsiveFontSizes.body)}
     // Media query with alias.
-    ${useMediaQueryUp("medium", "width: auto;")}
+    ${useMediaQueryUp("small", "width: auto;")}
 
     &:focus {
       // Using style.
