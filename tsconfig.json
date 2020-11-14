@@ -16,6 +16,6 @@
     "jsx": "react"
   },
   "include": [
-    "lib"
+    "bento", "example"
   ]
 }

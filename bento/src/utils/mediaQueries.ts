@@ -4,7 +4,7 @@ export const breakPointToMqUp = (breakpoint: string) =>
   `@media screen and (min-width: ${breakpoint})`;
 
 export const breakPointToMqDown = (breakpoint: string) =>
-  `@media screen and (max-width: ${breakpoint})`; // TODO -1.
+  `@media screen and (max-width: calc(${breakpoint} - 1px))`;
 
 export const useMediaQueryUp = (
   breakpoint: number | keyof DefaultTheme["breakpointAliases"],

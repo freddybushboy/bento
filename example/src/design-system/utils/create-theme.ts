@@ -1,13 +1,14 @@
-import { Theme } from "bento";
 import deepMerge from "deepmerge";
-import { defaultTokens, DefaultTokens } from "./theme";
+import { defaultTokens, DefaultTokens, Theme } from "./theme";
 
 type DeepPartial<T> = {
   [P in keyof T]?: DeepPartial<T[P]>;
 };
 
 // Design system exports this function to allow apps to easily extend the theme.
-export function createTheme<T>(customTheme: DeepPartial<Theme> & T): Theme & T {
+export function createTheme<T>(
+  customTheme: DeepPartial<Theme> & T
+): Theme & DefaultTokens & T {
   const mergeOptions = { arrayMerge: (_: any[], source: any[]) => source };
 
   // Merge the default tokens with the additional ones.
@@ -33,7 +34,7 @@ export function createTheme<T>(customTheme: DeepPartial<Theme> & T): Theme & T {
     },
   };
 
-  return deepMerge<DeepPartial<Theme>, Theme & T>(
+  return deepMerge<DeepPartial<Theme>, Theme & DefaultTokens & T>(
     defaults,
     theme,
     mergeOptions

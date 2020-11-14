@@ -1,8 +1,20 @@
-import { Theme } from "bento";
+import { ComponentTheme, Theme as BentoTheme } from "bento";
+import { CSSObject } from "styled-components";
 
-export type DefaultTokens = Omit<Theme, "components">;
+export type DefaultTokens = typeof defaultTokens;
+export type Theme = BentoTheme &
+  DefaultTokens & {
+    components: {
+      cta: ComponentTheme<{
+        borderRadius: string;
+        elevations: {
+          raised: CSSObject;
+        };
+      }>;
+    };
+  };
 
-export const defaultTokens: DefaultTokens = {
+export const defaultTokens = {
   spaces: [
     "0",
     "4px",
