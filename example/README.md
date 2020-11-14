@@ -6,13 +6,7 @@ From the root folder (above this one), run:
 
 ```shell
 yarn install # install dependencies
-yarn bootstrap # lerna bootstrap
-```
-
-From this folder, run:
-
-```shell
-yarn start
+yarn example # serve gatsby app
 ```
 
 ## Structure

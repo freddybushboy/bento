@@ -1,5 +1,5 @@
 {
-  "name": "bento-example",
+  "name": "example",
   "description": "Example use of bento",
   "version": "1.0.0",
   "private": true,
@@ -12,7 +12,8 @@
     "clean": "gatsby clean"
   },
   "dependencies": {
-    "@freddybushboy/bento": "1.0.0",
+    "bento": "1.0.0",
+    "cross-env": "5.0.5",
     "deepmerge": "^4.2.2",
     "gatsby": "2.25.4",
     "react": "17.0.1",

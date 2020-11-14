@@ -5,7 +5,7 @@ import {
   useMediaQueryUp,
   useResponsiveStyle,
   ColorPalette,
-} from "@freddybushboy/bento";
+} from "bento";
 
 const styleFromPalette = ({
   base,

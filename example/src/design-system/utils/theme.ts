@@ -1,25 +1,9 @@
 import { CSSObject } from "styled-components";
-import {
-  ColorPalette,
-  ComponentTheme,
-  ResponsiveValue,
-  Theme as SpecTheme,
-} from "@freddybushboy/bento";
+import { ComponentTheme, ResponsiveValue, Theme as SpecTheme } from "bento";
 
 // Names values it _must_ have - standard, etc.
 // Adds its components and styles.
 export type Theme = SpecTheme & {
-  sizes: Record<"touch", string>;
-  palettes: Record<"primary", ColorPalette>;
-  fonts: Record<"body" | "display", string>;
-  fontWeights: Record<"body" | "display", string>;
-  lineHeights: Record<"body" | "display", string>;
-  radii: Record<"standard", string>;
-  borderWidths: Record<"standard", string>;
-  borderStyles: Record<"standard", string>;
-  transitionSpeeds: Record<"standard", string>;
-  shadows: Record<"standard", string>;
-  styles: Record<"focusRing", CSSObject>;
   components: {
     cta: ComponentTheme<{
       borderRadius: ResponsiveValue<string>;
@@ -45,8 +29,9 @@ export type DefaultTokens = Pick<
   | "radii"
   | "borderWidths"
   | "borderStyles"
-  | "transitionSpeeds"
   | "shadows"
+  | "zIndices"
+  | "opacities"
   | "styles"
 >;
 
@@ -105,8 +90,9 @@ export const defaultTokens: DefaultTokens = {
   radii: { standard: "4px" },
   borderWidths: { standard: "1px" },
   borderStyles: { standard: "solid" },
-  transitionSpeeds: { standard: "0.3s" },
   shadows: { standard: "0 0 6px 0 rgba(0, 0, 0, 0.1)" },
+  opacities: { standard: "1" },
+  zIndices: { standard: "1" },
   styles: {
     focusRing: {
       outline: "none",

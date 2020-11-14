@@ -1,18 +1,19 @@
 {
   "name": "bento",
-  "description": "a deliciously structured theme",
+  "description": "A deliciously structured theme",
   "private": true,
   "scripts": {
-    "bootstrap": "yarn lerna bootstrap"
+    "example": "yarn --cwd example run start",
+    "build": "yarn --cwd bento run prepare",
+    "preexample": "yarn build"
   },
   "devDependencies": {
     "@types/styled-components": "^5.1.4"
   },
   "dependencies": {
-    "lerna": "^3.22.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "styled-components": "^5.2.1"
   },
-  "workspaces": ["example", "lib"]
+  "workspaces": ["bento","example"]
 }

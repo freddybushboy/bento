@@ -1,0 +1,30 @@
+{
+  "name": "bento",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "/dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "freddybushboy/bento"
+  },
+  "description": "A deliciously structured theme",
+  "scripts": {
+    "prepare": "tsc && tsc --module ES6 --outDir dist/esm --declaration false"
+  },
+  "author": "Fred Parke <fjcparke@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "cross-env": "5.0.5"
+  },
+  "devDependencies": {
+    "typescript": "^4.0.5"
+  },
+  "peerDependencies": {
+    "react": "^17.0.1",
+    "styled-components": "^5.2.1"
+  }
+}

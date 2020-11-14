@@ -23,27 +23,28 @@ The theme defines a set of values and constraints to keep consistency with the b
 
 "Components" add an extra layer, containing component-specific values ideally made up from the theme values above (see `/example`). Components also support "variants", "elevations", and "additional styles".
 
-| Key                   | Type                              | Description                                                 |
-| --------------------- | --------------------------------- | ----------------------------------------------------------- |
-| `spaces`              | `string[];`                       |                                                             |
-| `responsiveSpaces`    | `Record<string, string[]>;`       | Named sets of responsive spaces                             |
-| `sizes`               | `Record<string, string>;`         |                                                             |
-| `colors`              | `Record<string, string>;`         |                                                             |
-| `palettes`            | `Record<string, ColorPalette>;`   |                                                             |
-| `fontSizes`           | `string[];`                       |                                                             |
-| `responsiveFontSizes` | `Record<string, string[]>;`       | Named sets of responsive font sizes                         |
-| `fonts`               | `Record<string, string>;`         |                                                             |
-| `fontWeights`         | `Record<string, string>;`         |                                                             |
-| `lineHeights`         | `Record<string, string>;`         |                                                             |
-| `breakpoints`         | `string[];`                       |                                                             |
-| `breakpointAliases`   | `Record<string, number>;`         | Aliases for the breakpoint indices use for mediaQuery utils |
-| `radii`               | `Record<string, string>;`         |                                                             |
-| `borderWidths`        | `Record<string, string>;`         |                                                             |
-| `borderStyles`        | `Record<string, string>;`         |                                                             |
-| `transitionSpeeds`    | `Record<string, string>;`         |                                                             |
-| `shadows`             | `Record<string, string>;`         |                                                             |
-| `styles`              | `Record<string, CSSObject>;`      | Reusable styles/mixins. e.g. "focusRing"                    |
-| `components`          | `Record<string, ComponentTheme>;` | Component styles                                            |
+| Key                   | Type                                       | Description                                                                                |
+| --------------------- | ------------------------------------------ | ------------------------------------------------------------------------------------------ |
+| `spaces`              | `string[];`                                | Spacing scale used for layouts. Multiples work well: `['0', '4px', '8px', '12px', ...etc]` |
+| `responsiveSpaces`    | `Record<string, string[]>;`                | Named sets of responsive spaces                                                            |
+| `sizes`               | `Record<string, ResponsiveValue<string>>;` | Common sizes not tied to space e.g. "touchArea"                                            |
+| `colors`              | `Record<string, string>;`                  |                                                                                            |
+| `palettes`            | `Record<string, ColorPalette>;`            |                                                                                            |
+| `fontSizes`           | `string[];`                                |                                                                                            |
+| `responsiveFontSizes` | `Record<string, string[]>;`                | Named sets of responsive font sizes                                                        |
+| `fonts`               | `Record<string, string>;`                  |                                                                                            |
+| `fontWeights`         | `Record<string, string>;`                  |                                                                                            |
+| `lineHeights`         | `Record<string, string>;`                  |                                                                                            |
+| `breakpoints`         | `string[];`                                |                                                                                            |
+| `breakpointAliases`   | `Record<string, number>;`                  | Aliases for the breakpoint indices use for mediaQuery utils                                |
+| `radii`               | `Record<string, string>;`                  |                                                                                            |
+| `borderWidths`        | `Record<string, string>;`                  |                                                                                            |
+| `borderStyles`        | `Record<string, string>;`                  |                                                                                            |
+| `shadows`             | `Record<string, string>;`                  |                                                                                            |
+| `opacities`           | `Record<string, string>;`                  |                                                                                            |
+| `zIndices`            | `Record<string, string>;`                  |                                                                                            |
+| `styles`              | `Record<string, CSSObject>;`               | Reusable styles/mixins/transitions. e.g. "focusRing"                                       |
+| `components`          | `Record<string, ComponentTheme>;`          | Component styles                                                                           |
 
 ### ComponentTheme
 
