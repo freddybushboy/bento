@@ -1,27 +1,19 @@
-# 🍱 Bento - _a deliciously structured theme_
+# 🍱 Bento - _for deliciously structured themes_
 
-Bento is a theme spec and set of utilities for `styled-components` inspired by [Theme UI](https://github.com/system-ui/theme-ui) and [Nebula](http://github.com/ovotech/nebula).
+Bento provides a highly structured, customisable theme spec and utilities for `styled-components that can be extended at both the brand and application level. Inspired by [Theme UI](https://theme-ui.com/theme-spec) and [Nebula](https://nebula.kaluza.com/).
 
-Bento's primary use case is a **design system used by multiple brands and applications** - it allows for a structured, highly usable theme that can be extended at both the brand and application level.
+As well as **outlining a suggested theme structure**, there are concepts and utilities that can be used independently:
 
-As well as **outlining a suggested theme structure**, there are some concepts here that can be used independently:
-
-- **ThemeComponents** a structured way of declaring components in the theme that can be overridden and extended using:
-  - **Additional styles** - optional CSSObject where generic overrides can be applied.
-  - **Variants** - optional set of named CSSObjects that can be applied using the `variant` prop on the component.
-  - **Elevations** - 🚧 WIP: same concept as variants, but specifically for the concept of "elevations".
-- **useMediaQueryUp** and **useMediaQueryDown** - utility functions to create media queries from the breakpoints defined in the theme. Additionally, the idea of `breakpointAliases`, which allows naming of the breakpoints.
-- **useResponsiveStyle** - a utility function that applies array values responsively across the breakpoints declared in the theme. Also handles single values and treats them as not responsive.
-- **createTheme** - a utility used by the design system to allow apps to easily extend the theme. Overriding tokens like `colors.primary` will also update everywhere that token is used in component.
-- **ColorPalette** - a way of grouping a set of related colors with predefined AA relationships. WIP.
+- **Theme components** - a structured way of declaring components in the theme that can be overridden and extended using **variants**, **elevations**, and **additional styles**.
+- **Responsive utilities** - apply styles responsively using the breakpoints defined in the theme.
+- **Color palettes** - a way of grouping sets of related colors with predefined AA contrast relationships.
+- **Practices** (🚧 WIP) - guidelines and best practices around building themes and components.
 
 ## Types
 
 ### Theme
 
 The theme defines a set of values and constraints to keep consistency with the brand. The values in the theme can be used directly throughout applications.
-
-"Components" add an extra layer, containing component-specific values ideally made up from the theme values above (see `/example`). Components also support "variants", "elevations", and "additional styles".
 
 | Key                   | Type                                       | Description                                                                                |
 | --------------------- | ------------------------------------------ | ------------------------------------------------------------------------------------------ |
@@ -48,13 +40,15 @@ The theme defines a set of values and constraints to keep consistency with the b
 
 ### ComponentTheme
 
-Generic type that includes the properties to support variants, elevation, and additional styles. Any component-specific properties and customisations (e.g. "radioSize") can be included.
+Generic type that includes the properties to support variants, elevation, and additional styles. Any component-specific properties and customisations (e.g. "radioSize") can be included, ideally made up from the theme tokens (see [the example design system](example/src/design-system/theme.ts)).
 
-- **Variants** allow multiple "variant" styles to be defined which can be selected with the `variant` prop.
+- **Variants** defined named sets of "variant" styles that can be conditionally applied to components using the `variant` prop.
 
-- **Elevations** works the same way as variants do, but are for defining "elevations" - sets of styles relevant to where the component appears in the context of "elevation". Elevations are selected with the `elevation` prop.
+- **Additional styles** allow apps to add any styles that are not exposed through the theme by default. Additional styles apply to all variations and elevations but are less specific so can be overridden.
 
-- **Additional styles** allow apps to override any additional styles that are not exposed through the theme. Additional styles apply to all variations and elevations but are less specific so can be overridden.
+- **Elevations** (🚧 WIP) works the same way as variants do, but are for defining "elevations" - styles relevant to where the component appears in the context of "elevation". Elevations are selected with the `elevation` prop.
+
+**Type:**
 
 ```tsx
 type ComponentTheme<T = Record<string, unknown>> = {
@@ -68,9 +62,31 @@ type ComponentTheme<T = Record<string, unknown>> = {
 } & T;
 ```
 
+**Example usage:**
+
+```tsx
+type Components = {
+  cta: ComponentTheme<{ borderRaduis: string }>;
+};
+
+const components: Components = {
+  cta: {
+    borderRadius: "10px",
+    variants: {
+      mission: {
+        background: "pink",
+      },
+    },
+    style: {
+      textDecoration: "underline",
+    },
+  },
+};
+```
+
 ### ThemeComponent
 
-Generic type to be added to "components", includes `variant` and `elevation`.
+Generic type to be added to components, includes `variant` and `elevation`.
 
 ```tsx
 const CTA = styled.button<ThemeComponent>(
@@ -78,11 +94,17 @@ const CTA = styled.button<ThemeComponent>(
     ${componentStyle(theme.components.cta, variant, elevation)}
   `
 );
+
+const Example = () => (
+  <CTA variant="mission" elevation="raised">
+    Example
+  </CTA>
+);
 ```
 
 ### ResponsiveValue
 
-Indicates a value that can be "responsive" - either a single value or a responsive array.
+Indicates a value that can be "responsive" - either a single value or a responsive array. For use with `useResponsiveStyle`.
 
 ```tsx
 type CTAComponent = ComponentTheme<{
@@ -98,7 +120,7 @@ const cta: CTAComponent = {
 
 ### ColorPalette
 
-A group of colours containing a base, alt, contrast, and muted colour.
+A group of colours containing a base, alt, contrast, and muted colour. Palettes classify a set of colours with defined contrast relationships. Essentially, `base` and `alt` should both be meet AA contrast requirements against the "canvas" color (typically white). The `contast` and `muted` colours should meet AA contrast against `base` and `alt`.
 
 ```tsx
 const PrimaryPalette: ColorPalette = {
@@ -108,8 +130,6 @@ const PrimaryPalette: ColorPalette = {
   muted: "#FFFFFF",
 };
 ```
-
-Palettes classify a set of colours with defined contrast relationships. Essentially, `base` and `alt` should both be meet AA contrast requirements against the "canvas" color (generally white). The `contast` and `muted` colours should meet AA contrast against `base` and `alt`.
 
 Using palettes we can reliably put together components without needing to know what the colors are specifically. For example:
 
@@ -131,30 +151,40 @@ const styleFromPalette = ({
 });
 ```
 
-## Utils
+## Utilities
 
 ### Media queries
 
-React hooks `useMediaQueryUp` and `useMediaQueryDown`, can take a breakpoint index or alias.
+React hooks `useMediaQueryUp` and `useMediaQueryDown`, can take a breakpoint index or alias defined in the theme.
 
 ```tsx
-useMediaQueryUp(1, "color: red;");
-useMediaQueryUp("small", "color: red;");
+const CTA = styled.button`
+  ${useMediaQueryUp(1, "color: red;")}
+  ${useMediaQueryUp("small", "color: red;")}
+`;
 ```
 
 ### Styles
 
-`componentStyle` is used to render the component styles (variants, elevation) for components. Accepts the ThemeComponent, variant, and elevation.
+`componentStyle` is used to render the component styles (variants, elevation) for components. Accepts the `ThemeComponent`, `variant`, and `elevation`.
 
 ```tsx
-componentStyle(cta, variant, elevation);
+const CTA = styled.button<ThemeComponent>(
+  ({ theme: { cta }, variant, elevation }) => css`
+    ${componentStyle(cta, variant, elevation)}
+  `
+);
 ```
 
 `useResponsiveStyle` is used to render a `ResponsiveValue`. Takes the css property, the responsive value, and optionally, a formatter.
 
 ```tsx
-useResponsiveStyle("border-radius", cta.borderRadius);
-useResponsiveStyle("border-radius", cta.borderRadius, formatPx);
+const CTA = styled.button<ThemeComponent>(
+  ({ theme: { cta } }) => css`
+    ${useResponsiveStyle("border-radius", cta.borderRadius)}
+    ${useResponsiveStyle("border-radius", cta.borderRadius, formatPx)}
+  `
+);
 ```
 
 ## Practices

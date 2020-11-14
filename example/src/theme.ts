@@ -1,26 +1,34 @@
-import { CSSObject } from "styled-components";
-import { createTheme } from "./design-system";
+import deepMerge from "deepmerge";
+import {
+  theme as dsTheme,
+  Theme as DSTheme,
+  DeepPartial,
+} from "./design-system";
 
 type Additional = {
-  components: {
-    cta: {
-      variants: {
-        mission: CSSObject;
-      };
-    };
-  };
+  widget: string;
 };
 
-const theme = createTheme<Additional>({
-  components: {
-    cta: {
-      variants: {
-        mission: {
-          background: "deeppink",
+export const theme = deepMerge<DSTheme, DeepPartial<DSTheme> & Additional>(
+  dsTheme,
+  {
+    widget: "red",
+    components: {
+      cta: {
+        style: {
+          textDecoration: "underline",
+        },
+        variants: {
+          mission: {
+            background: "magenta",
+            ":hover": {
+              background: "darkmagenta",
+            },
+          },
         },
       },
     },
-  },
-});
+  }
+);
 
-export { theme };
+export type Theme = typeof theme;

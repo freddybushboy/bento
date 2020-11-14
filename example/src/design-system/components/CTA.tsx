@@ -22,7 +22,6 @@ const styleFromPalette = ({
 export const CTA = styled.button<ThemeComponent>(
   ({
     theme: {
-      responsiveFontSizes,
       palettes: { primary },
       components: { cta },
       styles: { focusRing },
@@ -35,20 +34,23 @@ export const CTA = styled.button<ThemeComponent>(
     padding: 20px;
     width: 100%;
     color: white;
+
+    // Set responsive styles (which may or may not have multiple values)
+    ${useResponsiveStyle("font-size", cta.fontSize)}
+    ${useResponsiveStyle("border-radius", cta.borderRadius)}
+
+    // Media query with alias.
+    ${useMediaQueryUp("small", `width: auto;`)}
+
     // Example using palette.
     ${styleFromPalette(primary)};
-    // Every component should call this.
-    ${componentStyle(cta, variant, elevation)}
-    // Set responsive style with a single value.
-    ${useResponsiveStyle("border-radius", cta.borderRadius)}
-    // Set responsive style with multiple values.
-    ${useResponsiveStyle("font-size", responsiveFontSizes.body)}
-    // Media query with alias.
-    ${useMediaQueryUp("small", "width: auto;")}
 
     &:focus {
       // Using style.
       ${focusRing}
     }
+
+    // Every component should call this.
+    ${componentStyle(cta, variant, elevation)}
   `
 );

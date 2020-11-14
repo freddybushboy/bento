@@ -1,18 +1,10 @@
-import { ComponentTheme, Theme as BentoTheme } from "bento";
+import deepMerge from "deepmerge";
+import { ComponentTheme, ResponsiveValue, Theme as BentoTheme } from "bento";
 import { CSSObject } from "styled-components";
 
-export type DefaultTokens = typeof defaultTokens;
-export type Theme = BentoTheme &
-  DefaultTokens & {
-    components: {
-      cta: ComponentTheme<{
-        borderRadius: string;
-        elevations: {
-          raised: CSSObject;
-        };
-      }>;
-    };
-  };
+export type DeepPartial<T> = {
+  [P in keyof T]?: DeepPartial<T[P]>;
+};
 
 export const defaultTokens = {
   spaces: [
@@ -72,10 +64,41 @@ export const defaultTokens = {
   shadows: { standard: "0 0 6px 0 rgba(0, 0, 0, 0.1)" },
   opacities: { standard: "1" },
   zIndices: { standard: "1" },
+};
+
+type Additional = {
+  styles: {
+    focusRing: CSSObject;
+  };
+  components: {
+    cta: ComponentTheme<{
+      borderRadius: ResponsiveValue<string>;
+      fontSize: ResponsiveValue<string>;
+    }>;
+  };
+};
+
+export const theme = deepMerge<
+  typeof defaultTokens,
+  DeepPartial<BentoTheme> & Additional
+>(defaultTokens, {
   styles: {
     focusRing: {
       outline: "none",
       boxShadow: "0 0 0 0.2rem white, 0 0 0 0.4rem blue",
     },
   },
-};
+  components: {
+    cta: {
+      borderRadius: defaultTokens.radii.standard,
+      fontSize: defaultTokens.responsiveFontSizes.body,
+      elevations: {
+        raised: {
+          boxShadow: defaultTokens.shadows.standard,
+        },
+      },
+    },
+  },
+});
+
+export type Theme = typeof theme;

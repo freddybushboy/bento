@@ -13,8 +13,8 @@ yarn example # serve gatsby app
 
 ### src/design-system
 
-An example design system that uses and extends the spec - providing a `createTheme` function that sets default values and allows individual apps to generate their own theme.
+An example design system that uses and extends the spec.
 
 ### src/app
 
-An example app that uses the example design system.
+An example app that uses the example design system, further extending the theme.
