@@ -35,7 +35,7 @@ export type Tokens = {
   // Breakpoints
   breakpoints: string[];
   breakpointAliases: Record<string, number>;
-  // Border
+  // Borders
   radii: Record<string, string>;
   borderWidths: Record<string, string>;
   borderStyles: Record<string, string>;
