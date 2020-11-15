@@ -1,3 +1,5 @@
+**🚧 WIP: this project is currently unpublished and serves as an evolving collection of ideasgit .**
+
 # 🍱 Bento - _for deliciously structured themes_
 
 Bento provides a highly structured, customisable theme spec and utilities for `styled-components that can be extended at both the brand and application level. Inspired by [Theme UI](https://theme-ui.com/theme-spec) and [Nebula](https://nebula.kaluza.com/).
@@ -19,17 +21,17 @@ The theme defines a set of values and constraints to keep consistency with the b
 | Key                   | Type                                       | Description                                                                                |
 | --------------------- | ------------------------------------------ | ------------------------------------------------------------------------------------------ |
 | `spaces`              | `string[];`                                | Spacing scale used for layouts. Multiples work well: `['0', '4px', '8px', '12px', ...etc]` |
-| `responsiveSpaces`    | `Record<string, string[]>;`                | Named sets of responsive spaces                                                            |
+| `responsiveSpaces`    | `Record<string, string[]>;`                | Named sets of responsive spaces .                                                          |
 | `sizes`               | `Record<string, ResponsiveValue<string>>;` | Common sizes not tied to space e.g. "touchArea"                                            |
 | `colors`              | `Record<string, string>;`                  |                                                                                            |
 | `palettes`            | `Record<string, ColorPalette>;`            |                                                                                            |
 | `fontSizes`           | `string[];`                                |                                                                                            |
-| `responsiveFontSizes` | `Record<string, string[]>;`                | Named sets of responsive font sizes                                                        |
+| `responsiveFontSizes` | `Record<string, string[]>;`                | Named sets of responsive font sizes.                                                       |
 | `fonts`               | `Record<string, string>;`                  |                                                                                            |
 | `fontWeights`         | `Record<string, string>;`                  |                                                                                            |
 | `lineHeights`         | `Record<string, string>;`                  |                                                                                            |
 | `breakpoints`         | `string[];`                                |                                                                                            |
-| `breakpointAliases`   | `Record<string, number>;`                  | Aliases for the breakpoint indices use for mediaQuery utils                                |
+| `breakpointAliases`   | `Record<string, number>;`                  | Aliases for the breakpoint indices use for mediaQuery utils.                               |
 | `radii`               | `Record<string, string>;`                  |                                                                                            |
 | `borderWidths`        | `Record<string, string>;`                  |                                                                                            |
 | `borderStyles`        | `Record<string, string>;`                  |                                                                                            |
@@ -37,7 +39,7 @@ The theme defines a set of values and constraints to keep consistency with the b
 | `opacities`           | `Record<string, string>;`                  |                                                                                            |
 | `zIndices`            | `Record<string, string>;`                  |                                                                                            |
 | `styles`              | `Record<string, CSSObject>;`               | Reusable styles/mixins/transitions. e.g. "focusRing"                                       |
-| `components`          | `Record<string, ComponentTheme>;`          | Component styles                                                                           |
+| `components`          | `Record<string, ComponentTheme>;`          | Component styles, see below.                                                               |
 
 ### ComponentTheme
 
