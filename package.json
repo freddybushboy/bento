@@ -5,15 +5,26 @@
   "scripts": {
     "example": "yarn --cwd example run start",
     "build": "yarn --cwd bento run prepare",
-    "preexample": "yarn build"
+    "preexample": "yarn build",
+    "test": "jest"
   },
   "devDependencies": {
-    "@types/styled-components": "^5.1.4"
+    "@babel/core": "^7.12.3",
+    "@babel/preset-env": "^7.12.1",
+    "@babel/preset-typescript": "^7.12.1",
+    "@types/jest": "^26.0.15",
+    "@types/lodash.get": "^4.4.6",
+    "@types/styled-components": "^5.1.4",
+    "babel-jest": "^26.6.3"
   },
   "dependencies": {
+    "jest": "^26.6.3",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "styled-components": "^5.2.1"
   },
-  "workspaces": ["bento","example"]
+  "workspaces": [
+    "bento",
+    "example"
+  ]
 }

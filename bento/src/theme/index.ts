@@ -18,7 +18,7 @@ export type ColorPalette = Record<
 
 export type ResponsiveValue<T> = T | T[];
 
-export type Theme = {
+export type Tokens = {
   // Sizes
   spaces: string[];
   responsiveSpaces: Record<string, string[]>;
@@ -35,7 +35,7 @@ export type Theme = {
   // Breakpoints
   breakpoints: string[];
   breakpointAliases: Record<string, number>;
-  // Borders
+  // Border
   radii: Record<string, string>;
   borderWidths: Record<string, string>;
   borderStyles: Record<string, string>;
@@ -45,7 +45,11 @@ export type Theme = {
   zIndices: Record<string, string>;
   // Special
   styles?: Record<string, CSSObject>;
-  components?: Record<string, ComponentTheme>;
+};
+export type Components = Record<string, ComponentTheme>;
+
+export type Theme = Tokens & {
+  components?: Components;
 };
 
 export type ThemeComponent = { variant?: string; elevation?: string };
