@@ -1,4 +1,4 @@
-**🚧 WIP: this project is currently unpublished and serves as an evolving collection of ideasgit .**
+**🚧 WIP: this project is currently unpublished and serves as an evolving collection of ideas**
 
 # 🍱 Bento - _for deliciously structured themes_
 
