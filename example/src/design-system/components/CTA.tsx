@@ -43,7 +43,7 @@ export const CTA = styled.button<ThemeComponent>(
     ${useMediaQueryUp("small", `width: auto;`)}
 
     // Example using palette.
-    ${styleFromPalette(primary)};
+    ${styleFromPalette(primary)}
 
     &:focus {
       // Using style.

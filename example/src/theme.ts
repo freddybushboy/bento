@@ -1,5 +1,5 @@
 import deepMerge from "deepmerge";
-import { createTheme } from "bento/src";
+import { createTheme } from "bento";
 import {
   defaultTokens,
   defaultComponents,

@@ -1,4 +1,4 @@
-import { ComponentTheme } from "bento/src";
+import { ComponentTheme } from "bento";
 import { CSSObject } from "styled-components";
 
 export const defaultTokens = {
@@ -83,8 +83,8 @@ export type Tokens = typeof defaultTokens;
 
 export type Components = {
   cta: ComponentTheme<{
-    borderRadius: Tokens["radii"]["standard"];
-    fontSize: Tokens["responsiveFontSizes"]["body"];
+    borderRadius: string;
+    fontSize: string[];
     elevations: {
       raised: CSSObject;
     };
