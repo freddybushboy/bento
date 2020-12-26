@@ -1,5 +1,4 @@
 import { ComponentTheme } from "bento";
-import { CSSObject } from "styled-components";
 
 export const defaultTokens = {
   spaces: [
@@ -67,38 +66,13 @@ export const defaultTokens = {
   },
 };
 
-export const defaultComponents = {
-  cta: {
-    borderRadius: "radii.standard",
-    fontSize: "responsiveFontSizes.body",
-    elevations: {
-      raised: {
-        boxShadow: "shadows.standard",
-      },
-    },
-  },
-  simple: {
-    variants: {
-      primary: {
-        background: "colors.primary",
-      },
-    },
-  },
-};
-
 export type Tokens = typeof defaultTokens;
 
 export type Components = {
-  cta: ComponentTheme<{
-    borderRadius: string;
-    fontSize: string[];
-    elevations: {
-      raised: CSSObject;
-    };
-  }>;
-  simple: ComponentTheme<{
-    variants: {
-      primary: CSSObject;
-    };
-  }>;
+  cta?: ComponentTheme<{}>;
+  simple?: ComponentTheme<{}>;
+};
+
+export type Theme = Tokens & {
+  components: Components;
 };

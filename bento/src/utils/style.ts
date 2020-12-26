@@ -1,4 +1,5 @@
 import { css, useTheme } from "styled-components";
+import { ThemeComponent } from "../theme";
 import { breakPointToMqUp } from "./mediaQueries";
 
 export const useComponentStyle = (componentName: string) => {
@@ -8,13 +9,7 @@ export const useComponentStyle = (componentName: string) => {
       ? components[componentName]
       : { style: {}, variants: {}, elevations: {} };
 
-  return ({
-    variant,
-    elevation,
-  }: {
-    variant?: string | undefined;
-    elevation?: string | undefined;
-  }) => css`
+  return ({ variant, elevation }: ThemeComponent) => css`
     ${style ? style : ""}
     ${variant && variants && variants[variant] ? variants[variant] : ""}
     ${elevation && elevations && elevations[elevation]
@@ -40,7 +35,7 @@ export const useResponsiveStyle = (
   const ascMediaQueries = breakpoints.map(breakPointToMqUp);
   const [base, ...rest] = values;
 
-  return {
+  return css({
     [property]: formatter ? formatter(base) : base,
     ...rest.reduce(
       (acc, val, i) => ({
@@ -51,5 +46,5 @@ export const useResponsiveStyle = (
       }),
       {}
     ),
-  };
+  });
 };

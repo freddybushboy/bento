@@ -1,4 +1,4 @@
-import { DefaultTheme, useTheme } from "styled-components";
+import { CSSObject, DefaultTheme, useTheme, css } from "styled-components";
 
 export const breakPointToMqUp = (breakpoint: string) =>
   `@media screen and (min-width: ${breakpoint})`;
@@ -8,7 +8,7 @@ export const breakPointToMqDown = (breakpoint: string) =>
 
 export const useMediaQueryUp = (
   breakpoint: number | keyof DefaultTheme["breakpointAliases"],
-  style: string
+  style: string | CSSObject
 ) => {
   const { breakpoints, breakpointAliases } = useTheme();
   let index;
@@ -18,17 +18,17 @@ export const useMediaQueryUp = (
     index = breakpoint;
   }
   return typeof index !== "undefined"
-    ? `
-    ${breakPointToMqUp(breakpoints[index])} {
-      ${style}
-    }
-  `
+    ? css`
+        ${breakPointToMqUp(breakpoints[index])} {
+          ${style}
+        }
+      `
     : "";
 };
 
 export const useMediaQueryDown = (
   breakpoint: number | keyof DefaultTheme["breakpointAliases"],
-  style: string
+  style: string | CSSObject
 ) => {
   const { breakpoints, breakpointAliases } = useTheme();
   let index;
@@ -38,10 +38,10 @@ export const useMediaQueryDown = (
     index = breakpoint;
   }
   return typeof index !== "undefined"
-    ? `
-    ${breakPointToMqDown(breakpoints[index])} {
-      ${style}
-    }
-  `
+    ? css`
+        ${breakPointToMqDown(breakpoints[index])} {
+          ${style}
+        }
+      `
     : "";
 };

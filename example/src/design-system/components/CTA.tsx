@@ -22,12 +22,11 @@ const styleFromPalette = ({
 export const CTA = styled.button<ThemeComponent>(
   ({
     theme: {
+      responsiveFontSizes,
+      radii,
       palettes: { primary },
-      components: { cta },
       styles: { focusRing },
     },
-    variant,
-    elevation,
   }) => css`
     // Custom styles not exposed through theme
     border: none;
@@ -35,9 +34,14 @@ export const CTA = styled.button<ThemeComponent>(
     width: 100%;
     color: white;
 
-    // Set responsive styles (which may or may not have multiple values)
-    ${useResponsiveStyle("font-size", cta.fontSize)}
-    ${useResponsiveStyle("border-radius", cta.borderRadius)}
+    // Use values from the theme directly.
+    border-radius: ${radii.standard};
+
+    // Set responsive styles,
+    ${useResponsiveStyle("font-size", responsiveFontSizes.body)}
+
+    // Media query with index.
+    ${useMediaQueryUp(2, `text-decoration: none;`)}
 
     // Media query with alias.
     ${useMediaQueryUp("small", `width: auto;`)}
@@ -50,7 +54,7 @@ export const CTA = styled.button<ThemeComponent>(
       ${focusRing}
     }
 
-    // Every component should call this.
+    // Every component should call this (last).
     ${useComponentStyle("cta")}
   `
 );

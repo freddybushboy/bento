@@ -46,10 +46,11 @@ export type Tokens = {
   // Special
   styles?: Record<string, CSSObject>;
 };
-export type Components = Record<string, ComponentTheme>;
 
-export type Theme = Tokens & {
-  components?: Components;
+export type Components = {
+  components: Record<string, ComponentTheme>;
 };
+
+export type Theme = Tokens & Components;
 
 export type ThemeComponent = { variant?: string; elevation?: string };

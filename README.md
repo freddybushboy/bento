@@ -10,7 +10,6 @@ As well as **outlining a suggested theme structure**, there are concepts and uti
 - **Responsive utilities** - apply styles responsively using the breakpoints defined in the theme.
 - **Color palettes** - a way of grouping sets of related colors with predefined AA contrast relationships.
 - **Practices** (🚧 WIP) - guidelines and best practices around building themes and components.
-- **Create theme** (🚧 WIP) - utility function to help create themes from tokens, components, and additions.
 
 ## Types
 
@@ -74,7 +73,6 @@ type Components = {
 
 const components: Components = {
   cta: {
-    borderRadius: "10px",
     variants: {
       mission: {
         background: "pink",
@@ -154,7 +152,7 @@ const styleFromPalette = ({
 
 ### Media queries
 
-React hooks `useMediaQueryUp` and `useMediaQueryDown`, can take a breakpoint index or alias defined in the theme.
+React hooks `useMediaQueryUp` and `useMediaQueryDown`. First argument is the breakpoint, can take either a breakpoint index or alias defined in the theme. Second argument can be either a style string or a CSSObject.
 
 ```tsx
 const CTA = styled.button`
@@ -163,7 +161,7 @@ const CTA = styled.button`
 `;
 ```
 
-### Styles
+### Component style
 
 `useComponentStyle` is used to render the component styles (variants, elevation) for components. Accepts the name of the `ThemeComponent`. This should be called last.
 
@@ -174,87 +172,27 @@ const CTA = styled.button<ThemeComponent>`
 `;
 ```
 
+### Responsive style
+
 `useResponsiveStyle` is used to render a `ResponsiveValue`. Takes the css property, the responsive value, and optionally, a formatter.
 
 ```tsx
 const CTA = styled.button<ThemeComponent>(
-  ({ theme: { cta } }) => css`
-    ${useResponsiveStyle("border-radius", cta.borderRadius)}
-    ${useResponsiveStyle("border-radius", cta.borderRadius, formatPx)}
+  ({ theme: { radii } }) => css`
+    ${useResponsiveStyle("border-radius", radii.standard)}
+    ${useResponsiveStyle("border-radius", radii.standard, formatPx)}
   `
 );
 ```
 
-### Create theme (🚧 WIP)
-
-`createTheme` is used to create bento themes (surprise!). It separates the concepts of "tokens", "components", and "additions" to allow components to easily reference tokens, and individual apps to extend the theme for their own needs.
-
-- **Tokens are the fundamental values of the theme** likely to be set within the design system, generally sticking to the structure outlined in the spec. The spec doesn't specify many of the exact names for the tokens so once set, the tokens can be typed more specifically.
-
-- **Components are a list of named `ThemeComponents`**, that will generally want to reference the tokens directly. `createTheme` supports nested object key strings to reference tokens e.g. `"radii.standard"`.
-
-- **Additions are miscellaneous or app-specific values** unlikely to be set by the design system, instead being set by the apps themselves for specific to their context.
-
-Instead of exporting an assembled theme, design systems can export the tokens and components (and their types) so apps can create themselves, extending as they need.
-
-**Basic usage**
+Can also be useful for exposing resposive values through props.
 
 ```tsx
-type Tokens = { radii: { standard: "4px" } };
-type Components = {
-  cta: ThemeComponent<{ borderRadius: Tokens["radii"]["standard"] }>;
-};
-export const theme = createTheme<Tokens, Components>(
-  { radii: { standard: "4px" } },
-  { cta: { borderRadius: "radii.standard" } }
+const Spacer = styled.div<{ space: ResponsiveValue<string> }>(({ space }) =>
+  useResponsiveStyle("margin-top", space)
 );
-```
 
-**Importing defaults from a design system**
-
-```tsx
-import { tokens, Tokens, components, Components } from "./design-system";
-
-export const theme = createTheme<Tokens, Components>(defaultTokens, components);
-```
-
-**Adding additional values**
-
-```tsx
-export const theme = createTheme<
-  Tokens,
-  Components,
-  {
-    widget: string;
-  }
->(defaultTokens, components, {
-  widget: "tomato",
-});
-```
-
-**Extending components**
-
-```tsx
-const extendedComponents = deepMerge(components, {
-  cta: {
-    variants: {
-      mission: {
-        background: "magenta",
-      },
-    },
-  },
-});
-type ExtendedComponents = Components & {
-  cta: {
-    variants: {
-      mission: CSSObject;
-    };
-  };
-};
-export const theme = createTheme<Tokens, ExtendedComponents>(
-  defaultTokens,
-  extendedComponents
-);
+const Example = () => <Spacer space={["10px", "20px"]} />;
 ```
 
 ## Practices

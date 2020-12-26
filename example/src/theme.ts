@@ -1,19 +1,10 @@
-import deepMerge from "deepmerge";
-import { createTheme } from "bento";
-import {
-  defaultTokens,
-  defaultComponents,
-  Tokens,
-  Components,
-} from "./design-system";
-import { CSSObject } from "styled-components";
+import { defaultTokens, Theme as DSTheme } from "./design-system";
 
 type Additional = {
   widget: string;
 };
 
-// Bento utility for this?
-const components = deepMerge(defaultComponents, {
+const components: DSTheme["components"] = {
   cta: {
     style: {
       textDecoration: "underline",
@@ -27,23 +18,12 @@ const components = deepMerge(defaultComponents, {
       },
     },
   },
-});
-
-type NewComponents = Components & {
-  cta: {
-    style: CSSObject;
-    variants: {
-      mission: CSSObject;
-    };
-  };
 };
 
-export const theme = createTheme<Tokens, NewComponents, Additional>(
-  defaultTokens,
-  components,
-  {
-    widget: "green",
-  }
-);
+export type Theme = DSTheme & Additional;
 
-export type Theme = typeof theme;
+export const theme: Theme = {
+  ...defaultTokens,
+  components,
+  widget: "green",
+};
