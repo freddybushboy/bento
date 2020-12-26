@@ -92,11 +92,7 @@ const components: Components = {
 Generic type to be added to components, includes `variant` and `elevation`.
 
 ```tsx
-const CTA = styled.button<ThemeComponent>(
-  ({ theme, variant, elevation }) => css`
-    ${componentStyle(theme.components.cta, variant, elevation)}
-  `
-);
+const CTA = styled.button<ThemeComponent>(() => useComponentStyle("cta"));
 
 const Example = () => (
   <CTA variant="mission" elevation="raised">
@@ -169,14 +165,13 @@ const CTA = styled.button`
 
 ### Styles
 
-`componentStyle` is used to render the component styles (variants, elevation) for components. Accepts the `ThemeComponent`, `variant`, and `elevation`.
+`useComponentStyle` is used to render the component styles (variants, elevation) for components. Accepts the name of the `ThemeComponent`. This should be called last.
 
 ```tsx
-const CTA = styled.button<ThemeComponent>(
-  ({ theme: { cta }, variant, elevation }) => css`
-    ${componentStyle(cta, variant, elevation)}
-  `
-);
+const CTA = styled.button<ThemeComponent>`
+  text-decoration: none;
+  ${useComponentStyle("cta")}
+`;
 ```
 
 `useResponsiveStyle` is used to render a `ResponsiveValue`. Takes the css property, the responsive value, and optionally, a formatter.
@@ -269,21 +264,13 @@ export const theme = createTheme<Tokens, ExtendedComponents>(
 When building basic, single element components such as a button, spreading props is fairly straightforward and styled-components takes care of it.
 
 ```tsx
-const CTA = styled.button<ThemeComponent>(
-  ({ theme, variant, elevation }) => css`
-    ${componentStyle(theme.components.cta, variant, elevation)}
-  `
-);
+const CTA = styled.button<ThemeComponent>(() => useComponentStyle("cta"));
 ```
 
-However, when building components that are made up of multiple elements, it can be less obvious where props will spread to. To provide flexibility when extending styles and variants it's recommended to use `componentStyle` on the uppermost element where possible - as well as the style and class props. Remaining props can be spread to the most _logical_ element and documented accordingly.
+However, when building components that are made up of multiple elements, it can be less obvious where props will spread to. To provide flexibility when extending styles and variants it's recommended to use `useComponentStyle` on the uppermost element where possible - as well as the style and class props. Remaining props can be spread to the most _logical_ element and documented accordingly.
 
 ```tsx
-const Field = styled.div<ThemeComponent>(
-  ({ theme, variant, elevation }) => css`
-    ${componentStyle(theme.components.field, variant, elevation)}
-  `
-);
+const Field = styled.div<ThemeComponent>(() => useComponentStyle("field"));
 
 type Props = JSX.IntrinsicElements["input"] & { label: string };
 const TextField = ({ label, className, style, ...rest }: Props) => {

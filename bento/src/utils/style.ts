@@ -1,22 +1,27 @@
 import { css, useTheme } from "styled-components";
-import { ComponentTheme } from "../theme";
 import { breakPointToMqUp } from "./mediaQueries";
 
-export const componentStyle = (
-  componentValue: Partial<ComponentTheme>,
-  variant?: string | undefined,
-  elevation?: string | undefined
-) => css`
-  ${componentValue.style ? componentValue.style : ""}
-  ${variant && componentValue.variants && componentValue.variants[variant]
-    ? componentValue.variants[variant]
-    : ""}
-    ${elevation &&
-  componentValue.elevations &&
-  componentValue.elevations[elevation]
-    ? componentValue.elevations[elevation]
-    : ""}
-`;
+export const useComponentStyle = (componentName: string) => {
+  const { components } = useTheme();
+  const { style, variants, elevations } =
+    components && components[componentName]
+      ? components[componentName]
+      : { style: {}, variants: {}, elevations: {} };
+
+  return ({
+    variant,
+    elevation,
+  }: {
+    variant?: string | undefined;
+    elevation?: string | undefined;
+  }) => css`
+    ${style ? style : ""}
+    ${variant && variants && variants[variant] ? variants[variant] : ""}
+    ${elevation && elevations && elevations[elevation]
+      ? elevations[elevation]
+      : ""}
+  `;
+};
 
 export const useResponsiveStyle = (
   property: string,

@@ -77,6 +77,13 @@ export const defaultComponents = {
       },
     },
   },
+  simple: {
+    variants: {
+      primary: {
+        background: "colors.primary",
+      },
+    },
+  },
 };
 
 export type Tokens = typeof defaultTokens;
@@ -87,6 +94,11 @@ export type Components = {
     fontSize: string[];
     elevations: {
       raised: CSSObject;
+    };
+  }>;
+  simple: ComponentTheme<{
+    variants: {
+      primary: CSSObject;
     };
   }>;
 };

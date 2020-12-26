@@ -1,7 +1,7 @@
 import styled, { css, CSSObject } from "styled-components";
 import {
   ThemeComponent,
-  componentStyle,
+  useComponentStyle,
   useMediaQueryUp,
   useResponsiveStyle,
   ColorPalette,
@@ -46,11 +46,11 @@ export const CTA = styled.button<ThemeComponent>(
     ${styleFromPalette(primary)}
 
     &:focus {
-      // Using style.
+      // Using styles.
       ${focusRing}
     }
 
     // Every component should call this.
-    ${componentStyle(cta, variant, elevation)}
+    ${useComponentStyle("cta")}
   `
 );
