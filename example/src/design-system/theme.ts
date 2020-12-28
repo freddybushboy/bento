@@ -1,7 +1,7 @@
-import { ComponentTheme } from "bento";
+import { ComponentTheme, Theme as BentoTheme } from "bento";
 
 export const defaultTokens = {
-  spaces: [
+  spaceScale: [
     "0",
     "4px",
     "8px",
@@ -16,7 +16,7 @@ export const defaultTokens = {
     "44px",
     "48px",
   ],
-  responsiveSpaces: {
+  spaces: {
     standard: ["12px", "32px"],
   },
   sizes: { touch: "40px" },
@@ -29,8 +29,8 @@ export const defaultTokens = {
       muted: "#F3F7F9",
     },
   },
-  fontSizes: ["12px", "14px", "16px", "20px", "24px", "28px", "32px"],
-  responsiveFontSizes: {
+  fontScale: ["12px", "14px", "16px", "20px", "24px", "28px", "32px"],
+  fontSizes: {
     small: ["12px", "14px"],
     body: ["14px", "16px"],
     level1: ["28px", "32px"],
@@ -58,21 +58,23 @@ export const defaultTokens = {
   shadows: { standard: "0 0 6px 0 rgba(0, 0, 0, 0.1)" },
   opacities: { standard: "1" },
   zIndices: { standard: "1" },
-  styles: {
-    focusRing: {
-      outline: "none",
-      boxShadow: "0 0 0 0.2rem white, 0 0 0 0.4rem blue",
-    },
+};
+
+const styles = {
+  focusRing: {
+    outline: "none",
+    boxShadow: "0 0 0 0.2rem white, 0 0 0 0.4rem blue",
   },
 };
 
-export type Tokens = typeof defaultTokens;
+export const defaultTheme = {
+  ...defaultTokens,
+  styles,
+};
 
-export type Components = {
+type Components = {
   cta?: ComponentTheme<{}>;
   simple?: ComponentTheme<{}>;
 };
 
-export type Theme = Tokens & {
-  components: Components;
-};
+export type Theme = BentoTheme<typeof defaultTokens, Components, typeof styles>;

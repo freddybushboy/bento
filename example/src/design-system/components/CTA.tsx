@@ -22,7 +22,7 @@ const styleFromPalette = ({
 export const CTA = styled.button<ThemeComponent>(
   ({
     theme: {
-      responsiveFontSizes,
+      fontSizes,
       radii,
       palettes: { primary },
       styles: { focusRing },
@@ -38,7 +38,7 @@ export const CTA = styled.button<ThemeComponent>(
     border-radius: ${radii.standard};
 
     // Set responsive styles,
-    ${useResponsiveStyle("font-size", responsiveFontSizes.body)}
+    ${useResponsiveStyle("font-size", fontSizes.body)}
 
     // Media query with index.
     ${useMediaQueryUp(2, `text-decoration: none;`)}

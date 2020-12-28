@@ -1,6 +1,7 @@
 import { css, useTheme } from "styled-components";
-import { ThemeComponent } from "../theme";
 import { breakPointToMqUp } from "./mediaQueries";
+
+export type ThemeComponent = { variant?: string; elevation?: string };
 
 export const useComponentStyle = (componentName: string) => {
   const { components } = useTheme();

@@ -1,10 +1,15 @@
-import { defaultTokens, Theme as DSTheme } from "./design-system";
+import { defaultTheme } from "./design-system";
 
+// Additional properties added to the theme unique to this project.
 type Additional = {
   widget: string;
 };
+const additional: Additional = {
+  widget: "green",
+};
 
-const components: DSTheme["components"] = {
+// Overrides and additions made to components unique to this project.
+const components = {
   cta: {
     style: {
       textDecoration: "underline",
@@ -20,10 +25,10 @@ const components: DSTheme["components"] = {
   },
 };
 
-export type Theme = DSTheme & Additional;
-
-export const theme: Theme = {
-  ...defaultTokens,
+export const theme = {
+  ...defaultTheme,
+  ...additional,
   components,
-  widget: "green",
 };
+
+export type Theme = typeof theme;

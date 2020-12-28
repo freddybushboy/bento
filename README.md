@@ -11,42 +11,38 @@ As well as **outlining a suggested theme structure**, there are concepts and uti
 - **Color palettes** - a way of grouping sets of related colors with predefined AA contrast relationships.
 - **Practices** (🚧 WIP) - guidelines and best practices around building themes and components.
 
-## Types
-
-### Theme
+## Theme Spec
 
 The theme defines a set of values and constraints to keep consistency with the brand. The values in the theme can be used directly throughout applications.
 
-| Key                   | Type                                       | Description                                                                                |
-| --------------------- | ------------------------------------------ | ------------------------------------------------------------------------------------------ |
-| `spaces`              | `string[];`                                | Spacing scale used for layouts. Multiples work well: `['0', '4px', '8px', '12px', ...etc]` |
-| `responsiveSpaces`    | `Record<string, string[]>;`                | Named sets of responsive spaces .                                                          |
-| `sizes`               | `Record<string, ResponsiveValue<string>>;` | Common sizes not tied to space e.g. "touchArea"                                            |
-| `colors`              | `Record<string, string>;`                  |                                                                                            |
-| `palettes`            | `Record<string, ColorPalette>;`            |                                                                                            |
-| `fontSizes`           | `string[];`                                |                                                                                            |
-| `responsiveFontSizes` | `Record<string, string[]>;`                | Named sets of responsive font sizes.                                                       |
-| `fonts`               | `Record<string, string>;`                  |                                                                                            |
-| `fontWeights`         | `Record<string, string>;`                  |                                                                                            |
-| `lineHeights`         | `Record<string, string>;`                  |                                                                                            |
-| `breakpoints`         | `string[];`                                |                                                                                            |
-| `breakpointAliases`   | `Record<string, number>;`                  | Aliases for the breakpoint indices use for mediaQuery utils.                               |
-| `radii`               | `Record<string, string>;`                  |                                                                                            |
-| `borderWidths`        | `Record<string, string>;`                  |                                                                                            |
-| `borderStyles`        | `Record<string, string>;`                  |                                                                                            |
-| `shadows`             | `Record<string, string>;`                  |                                                                                            |
-| `opacities`           | `Record<string, string>;`                  |                                                                                            |
-| `zIndices`            | `Record<string, string>;`                  |                                                                                            |
-| `styles`              | `Record<string, CSSObject>;`               | Reusable styles/mixins/transitions. e.g. "focusRing"                                       |
-| `components`          | `Record<string, ComponentTheme>;`          | Component styles, see below.                                                               |
+| Key                 | Type                                       | Description                                                                                |
+| ------------------- | ------------------------------------------ | ------------------------------------------------------------------------------------------ |
+| `spaceScale`        | `string[];`                                | Spacing scale used for layouts. Multiples work well: `['0', '4px', '8px', '12px', ...etc]` |
+| `spaces`            | `Record<string, ResponsiveValue<string>>;` | Named sets of responsive spaces .                                                          |
+| `sizes`             | `Record<string, ResponsiveValue<string>>;` | Common sizes not tied to space e.g. "touchArea"                                            |
+| `colors`            | `Record<string, string>;`                  |                                                                                            |
+| `palettes`          | `Record<string, ColorPalette>;`            |                                                                                            |
+| `fontScale`         | `string[];`                                |                                                                                            |
+| `fontSizes`         | `Record<string, ResponsiveValue<string>>;` | Named sets of responsive font sizes.                                                       |
+| `fonts`             | `Record<string, string>;`                  |                                                                                            |
+| `fontWeights`       | `Record<string, string>;`                  |                                                                                            |
+| `lineHeights`       | `Record<string, string>;`                  |                                                                                            |
+| `breakpoints`       | `string[];`                                |                                                                                            |
+| `breakpointAliases` | `Record<string, number>;`                  | Aliases for the breakpoint indices use for mediaQuery utils.                               |
+| `radii`             | `Record<string, string>;`                  |                                                                                            |
+| `borderWidths`      | `Record<string, string>;`                  |                                                                                            |
+| `borderStyles`      | `Record<string, string>;`                  |                                                                                            |
+| `shadows`           | `Record<string, string>;`                  |                                                                                            |
+| `opacities`         | `Record<string, string>;`                  |                                                                                            |
+| `zIndices`          | `Record<string, string>;`                  |                                                                                            |
+| `styles`            | `Record<string, CSSObject>;`               | Reusable styles/mixins/transitions. e.g. "focusRing"                                       |
+| `components`        | `Record<string, ComponentTheme>;`          | Component styles, see below.                                                               |
 
-### ComponentTheme
+## Theme Components
 
-Generic type that includes the properties to support variants, elevation, and additional styles. Any component-specific properties and customisations (e.g. "radioSize") can be included, ideally made up from the theme tokens (see [the example design system](example/src/design-system/theme.ts)).
+Theme components are components that can optionally be overidden and extended using the theme. To keep the theme as lightweight as possible, the base tokens are used directly in our components, but we call the `useComponentStyles` hook, which allows additional styles to be added to the theme where needed. As well as allowing for generic styles to be altered, theme components also support:
 
 - **Variants** defined named sets of "variant" styles that can be conditionally applied to components using the `variant` prop.
-
-- **Additional styles** allow apps to add any styles that are not exposed through the theme by default. Additional styles apply to all variations and elevations but are less specific so can be overridden.
 
 - **Elevations** (🚧 WIP) works the same way as variants do, but are for defining "elevations" - styles relevant to where the component appears in the context of "elevation". Elevations are selected with the `elevation` prop.
 
@@ -85,12 +81,13 @@ const components: Components = {
 };
 ```
 
-### ThemeComponent
-
-Generic type to be added to components, includes `variant` and `elevation`.
+`useComponentStyle` is used to render the component styles (variants, elevation) for components. Accepts the name of the `ThemeComponent`. This should be called last. The `ThemeComponent` type adds the additional `variant` and `elevation` properties.
 
 ```tsx
-const CTA = styled.button<ThemeComponent>(() => useComponentStyle("cta"));
+const CTA = styled.button<ThemeComponent>`
+  text-decoration: none;
+  ${useComponentStyle("cta")}
+`;
 
 const Example = () => (
   <CTA variant="mission" elevation="raised">
@@ -99,25 +96,45 @@ const Example = () => (
 );
 ```
 
-### ResponsiveValue
+## Responsive utilities
 
-Indicates a value that can be "responsive" - either a single value or a responsive array. For use with `useResponsiveStyle`.
+### Media queries
+
+React hooks `useMediaQueryUp` and `useMediaQueryDown`. First argument is the breakpoint, can take either a breakpoint index or alias defined in the theme. Second argument can be either a style string or a CSSObject.
 
 ```tsx
-type CTAComponent = ComponentTheme<{
-  fontWeight: ResponsiveValue<string>;
-  fontSize: ResponsiveValue<string>;
-}>;
-
-const cta: CTAComponent = {
-  fontWeight: "bold",
-  fontSize: ["16px", "18px"],
-};
+const CTA = styled.button`
+  ${useMediaQueryUp(1, "color: red;")}
+  ${useMediaQueryUp("small", "color: red;")}
+`;
 ```
 
-### ColorPalette
+### Responsive styles
 
-A group of colours containing a base, alt, contrast, and muted colour. Palettes classify a set of colours with defined contrast relationships. Essentially, `base` and `alt` should both be meet AA contrast requirements against the "canvas" color (typically white). The `contrast` and `muted` colours should meet AA contrast against `base` and `alt`.
+`useResponsiveStyle` is used to render a `ResponsiveValue` (either an array or single value). Takes the css property, the responsive value, and optionally, a formatter.
+
+```tsx
+const CTA = styled.button<ThemeComponent>(
+  ({ theme: { radii } }) => css`
+    ${useResponsiveStyle("border-radius", radii.standard)}
+    ${useResponsiveStyle("border-radius", radii.standard, formatPx)}
+  `
+);
+```
+
+Can also be useful for exposing resposive values through props.
+
+```tsx
+const Spacer = styled.div<{ space: ResponsiveValue<string> }>(({ space }) =>
+  useResponsiveStyle("margin-top", space)
+);
+
+const Example = () => <Spacer space={["10px", "20px"]} />;
+```
+
+## Color palettes
+
+Color Palettes are a group of colours containing a base, alt, contrast, and muted colour. Palettes classify a set of colours with defined contrast relationships. Essentially, `base` and `alt` should both be meet AA contrast requirements against the "canvas" color (typically white). The `contrast` and `muted` colours should meet AA contrast against `base` and `alt`.
 
 ```tsx
 const PrimaryPalette: ColorPalette = {
@@ -146,53 +163,6 @@ const styleFromPalette = ({
     borderColor: alt,
   },
 });
-```
-
-## Utilities
-
-### Media queries
-
-React hooks `useMediaQueryUp` and `useMediaQueryDown`. First argument is the breakpoint, can take either a breakpoint index or alias defined in the theme. Second argument can be either a style string or a CSSObject.
-
-```tsx
-const CTA = styled.button`
-  ${useMediaQueryUp(1, "color: red;")}
-  ${useMediaQueryUp("small", "color: red;")}
-`;
-```
-
-### Component style
-
-`useComponentStyle` is used to render the component styles (variants, elevation) for components. Accepts the name of the `ThemeComponent`. This should be called last.
-
-```tsx
-const CTA = styled.button<ThemeComponent>`
-  text-decoration: none;
-  ${useComponentStyle("cta")}
-`;
-```
-
-### Responsive style
-
-`useResponsiveStyle` is used to render a `ResponsiveValue`. Takes the css property, the responsive value, and optionally, a formatter.
-
-```tsx
-const CTA = styled.button<ThemeComponent>(
-  ({ theme: { radii } }) => css`
-    ${useResponsiveStyle("border-radius", radii.standard)}
-    ${useResponsiveStyle("border-radius", radii.standard, formatPx)}
-  `
-);
-```
-
-Can also be useful for exposing resposive values through props.
-
-```tsx
-const Spacer = styled.div<{ space: ResponsiveValue<string> }>(({ space }) =>
-  useResponsiveStyle("margin-top", space)
-);
-
-const Example = () => <Spacer space={["10px", "20px"]} />;
 ```
 
 ## Practices

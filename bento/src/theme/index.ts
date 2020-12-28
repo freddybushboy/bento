@@ -20,11 +20,11 @@ export type ResponsiveValue<T> = T | T[];
 
 export type Tokens = {
   // Sizes
-  spaces: string[];
-  responsiveSpaces: Record<string, string[]>;
+  spaceScale: string[];
+  spaces: Record<string, ResponsiveValue<string>>;
   sizes: Record<string, ResponsiveValue<string>>;
-  fontSizes: string[];
-  responsiveFontSizes: Record<string, string[]>;
+  fontScale: string[];
+  fontSizes: Record<string, ResponsiveValue<string>>;
   // Colors
   colors: Record<string, string>;
   palettes: Record<string, ColorPalette>;
@@ -43,14 +43,13 @@ export type Tokens = {
   shadows: Record<string, string>;
   opacities: Record<string, string>;
   zIndices: Record<string, string>;
-  // Special
-  styles?: Record<string, CSSObject>;
 };
 
-export type Components = {
-  components: Record<string, ComponentTheme>;
+export type Styles = Record<string, CSSObject>;
+
+export type Components = Record<string, ComponentTheme>;
+
+export type Theme<T = Tokens, C = Components, S = Styles> = T & {
+  styles: S;
+  components: C;
 };
-
-export type Theme = Tokens & Components;
-
-export type ThemeComponent = { variant?: string; elevation?: string };
