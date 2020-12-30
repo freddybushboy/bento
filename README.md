@@ -1,4 +1,4 @@
-**🚧 WIP: this project is currently unpublished and serves as an evolving collection of ideas**
+**🚧 WIP: this project is an evolving set of ideas and is currently unpublished**
 
 # 🍱 Bento - _for deliciously structured themes_
 
@@ -18,25 +18,25 @@ The theme defines a set of values and constraints to keep consistency with the b
 | Key                 | Type                                       | Description                                                                                |
 | ------------------- | ------------------------------------------ | ------------------------------------------------------------------------------------------ |
 | `spaceScale`        | `string[];`                                | Spacing scale used for layouts. Multiples work well: `['0', '4px', '8px', '12px', ...etc]` |
-| `spaces`            | `Record<string, ResponsiveValue<string>>;` | Named sets of responsive spaces .                                                          |
+| `spaces`            | `Record<string, ResponsiveValue<string>>;` | Named sets of responsive spaces                                                          |
 | `sizes`             | `Record<string, ResponsiveValue<string>>;` | Common sizes not tied to space e.g. "touchArea"                                            |
 | `colors`            | `Record<string, string>;`                  |                                                                                            |
 | `palettes`          | `Record<string, ColorPalette>;`            |                                                                                            |
 | `fontScale`         | `string[];`                                |                                                                                            |
-| `fontSizes`         | `Record<string, ResponsiveValue<string>>;` | Named sets of responsive font sizes.                                                       |
+| `fontSizes`         | `Record<string, ResponsiveValue<string>>;` | Named sets of responsive font sizes                                                       |
 | `fonts`             | `Record<string, string>;`                  |                                                                                            |
 | `fontWeights`       | `Record<string, string>;`                  |                                                                                            |
 | `lineHeights`       | `Record<string, string>;`                  |                                                                                            |
 | `breakpoints`       | `string[];`                                |                                                                                            |
-| `breakpointAliases` | `Record<string, number>;`                  | Aliases for the breakpoint indices use for mediaQuery utils.                               |
+| `breakpointAliases` | `Record<string, number>;`                  | Aliases for the breakpoint indices used for mediaQuery utils                               |
 | `radii`             | `Record<string, string>;`                  |                                                                                            |
 | `borderWidths`      | `Record<string, string>;`                  |                                                                                            |
 | `borderStyles`      | `Record<string, string>;`                  |                                                                                            |
 | `shadows`           | `Record<string, string>;`                  |                                                                                            |
 | `opacities`         | `Record<string, string>;`                  |                                                                                            |
 | `zIndices`          | `Record<string, string>;`                  |                                                                                            |
-| `styles`            | `Record<string, CSSObject>;`               | Reusable styles/mixins/transitions. e.g. "focusRing"                                       |
-| `components`        | `Record<string, ComponentTheme>;`          | Component styles, see below.                                                               |
+| `styles`            | `Record<string, CSSObject>;`               | Reusable styles/mixins/transitions e.g. "focusRing"                                       |
+| `components`        | `Record<string, ComponentTheme>;`          | Theme components, see below                                                               |
 
 ## Theme Components
 
