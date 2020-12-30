@@ -2,7 +2,7 @@
 
 # 🍱 Bento - _for deliciously structured themes_
 
-Bento provides a highly structured, customisable theme spec and utilities for `styled-components that can be extended at both the brand and application level. Inspired by [Theme UI](https://theme-ui.com/theme-spec) and [Nebula](https://nebula.kaluza.com/).
+Bento provides a highly structured, customisable theme spec and utilities for `styled-components` that can be extended at both the brand and application level. Inspired by [Theme UI](https://theme-ui.com/theme-spec) and [Nebula](https://nebula.kaluza.com/).
 
 As well as **outlining a suggested theme structure**, there are concepts and utilities that can be used independently:
 
