@@ -26,13 +26,7 @@ export const useResponsiveStyle = <T>(
   formatter?: (v: T) => string
 ) => {
   const { breakpoints } = useTheme();
-  let values;
-
-  if (Array.isArray(value)) {
-    values = value;
-  } else {
-    values = [value];
-  }
+  const values = Array.isArray(value) ? value : [value];
 
   const ascMediaQueries = breakpoints.map(breakPointToMqUp);
   const [base, ...rest] = values;
@@ -40,12 +34,15 @@ export const useResponsiveStyle = <T>(
   return css({
     [property]: formatter ? formatter(base) : base,
     ...rest.reduce(
-      (acc, val, i) => ({
-        ...acc,
-        [ascMediaQueries[i]]: {
-          [property]: formatter ? formatter(val) : val,
-        },
-      }),
+      (acc, val, i) =>
+        val && ascMediaQueries[i] // Skip empty values and media queries.
+          ? {
+              ...acc,
+              [ascMediaQueries[i]]: {
+                [property]: formatter ? formatter(val) : val,
+              },
+            }
+          : acc,
       {}
     ),
   });

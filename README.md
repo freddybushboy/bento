@@ -6,110 +6,101 @@ Bento provides a highly structured, customisable theme spec and utilities for `s
 
 As well as **outlining a suggested theme structure**, there are concepts and utilities that can be used independently:
 
-- **Theme components** - a structured way of declaring components in the theme that can be overridden and extended using **variants**, **elevations**, and **additional styles**.
-- **Responsive utilities** - apply styles responsively using the breakpoints defined in the theme.
+- **Theme components** - a structured way of declaring components in the theme that can be overridden and extended.
+- **Theme utilities** - simple functions and components that work with your theme.
+- **Theme spec** - a recommended on how to structure your theme.
 - **Color palettes** - a way of grouping sets of related colors with predefined AA contrast relationships.
-- **Practices** (🚧 WIP) - guidelines and best practices around building themes and components.
+- **Practices** - guidelines and best practices around building themes and components.
 
-## Theme Spec
 
-The theme defines a set of values and constraints to keep consistency with the brand.
+## Theme structure
 
-TODO: describe the methodology here, raw value -> semantic -> components etc
+Bento utilities rely on the following theme properties. See the wider [theme spec recommendation](./docs/THEME_SPEC.md) for a more comprehensive spec.
 
-Note that Bento utilities do not rely on this structure except where noted.
+| Key                 | Type                                       | Description                                                                                                  |
+|---------------------|--------------------------------------------|--------------------------------------------------------------------------------------------------------------|
+| `spaceScale`        | `string[];`                                | An ascending spacing scale used for layouts. Multiples work well, e.g. `['0', '4px', '8px', '12px', ...etc]` |
+| `sizes`             | `Record<string, ResponsiveValue<string>>;` | Named sets of responsive spaces or common sizes not tied to space e.g. "touchArea"                           |
+| `breakpoints`       | `string[];`                                | An ascending set of breakpoints used when writing responsive styles, e.g. `['480px', '768px', '1208px']`     |
+| `breakpointAliases` | `Record<string, number>;`                  | Aliases for the breakpoint indices used for mediaQuery utils                                                 |
+| `components`        | `Record<string, ComponentTheme>;`          | Theme components, [see below](#theme-components)                                                                                  |
 
-| Key                 | Type                                       | Description                                                                                |
-|---------------------|--------------------------------------------|--------------------------------------------------------------------------------------------|
-| `spaceScale`*       | `string[];`                                | Spacing scale used for layouts. Multiples work well: `['0', '4px', '8px', '12px', ...etc]` |
-| `sizes`*            | `Record<string, ResponsiveValue<string>>;` | Named sets of responsive spaces or common sizes not tied to space e.g. "touchArea"         |
-| `colors`            | `Record<string, string>;`                  |                                                                                            |
-| `palettes`          | `Record<string, ColorPalette>;`            |                                                                                            |
-| `fontScale`         | `string[];`                                |                                                                                            |
-| `fontSizes`         | `Record<string, ResponsiveValue<string>>;` | Named sets of responsive font sizes                                                        |
-| `fonts`             | `Record<string, string>;`                  |                                                                                            |
-| `fontWeights`       | `Record<string, string>;`                  |                                                                                            |
-| `lineHeights`       | `Record<string, string>;`                  |                                                                                            |
-| `breakpoints`*      | `string[];`                                |                                                                                            |
-| `breakpointAliases` | `Record<string, number>;`                  | Aliases for the breakpoint indices used for mediaQuery utils                               |
-| `mediaQueries`      | `Record<string, string>;`                  | Named media queries                                                                        |
-| `radii`             | `Record<string, string>;`                  |                                                                                            |
-| `borderWidths`      | `Record<string, string>;`                  |                                                                                            |
-| `borderStyles`      | `Record<string, string>;`                  |                                                                                            |
-| `shadows`           | `Record<string, string>;`                  |                                                                                            |
-| `opacities`         | `Record<string, string>;`                  |                                                                                            |
-| `zIndices`          | `Record<string, string>;`                  |                                                                                            |
-| `transitions`       | `Record<string, string>;`                  |                                                                                            |
-| `styles`            | `Record<string, CSSObject>;`               | Reusable styles/mixins/transitions e.g. "focusRing"                                        |
-| `components`*       | `Record<string, ComponentTheme>;`          | Theme components, see below                                                                |
-
-TODO describe space methodology.
 
 ## Theme Components
 
-Theme components are components that can optionally be overidden and extended using the theme. To keep the theme as lightweight as possible, the base tokens are used directly in our components, but we call the `useComponentStyles` hook, which allows additional styles to be added to the theme where needed. As well as allowing for generic styles to be altered, theme components also support:
+Theme Components are designed with **brand-agnostic** component libraries in mind and allow components to be created in a way that can optionally be overridden and extended using the theme.
 
+Theme Components make use of the `useComponentStyles` hook, which allows additional styles to be added to the theme where needed. Theme Components can be customised with:
+
+- **Styles** generic custom styles to add to the component.
 - **Variants** defined named sets of "variant" styles that can be conditionally applied to components using the `variant` prop.
-
 - **Elevations** (🚧 WIP) works the same way as variants do, but are for defining "elevations" - styles relevant to where the component appears in the context of "elevation". Elevations are selected with the `elevation` prop.
 
-**Type:**
+### Adding Theme Components to your theme
 
-```tsx
-type ComponentTheme<T = Record<string, unknown>> = {
-  style?: CSSObject;
-  variants?: {
-    [k: string]: CSSObject;
-  };
-  elevations?: {
-    [k: string]: CSSObject;
-  };
-} & T;
+Theme Components are declared in the theme by adding a `components` property of the type `Record<string, ComponentTheme>` (exported from bento as type `Components`).
+
+```ts
+import { Components } from "bento";
+
+type Theme = { components: Components };
+
+const theme: Theme = {
+  components: {} // Customisations to Theme Components go here.
+}
 ```
 
-**Example usage:**
+Lets create a Theme Component: "cta". When creating your components write them as you normally would, using the basic theme tokens followed by `useComponentStyle` which used to render the component styles (overrides, variants and elevation). Accepts the name of the `ThemeComponent`. This should be called last. The `ThemeComponent` type adds the additional `variant` and `elevation` properties to your component.
+
+```ts
+const CTA = styled.button<ThemeComponent>(({ theme: { radii } }) => `
+  border-radius: ${radii.standard};
+  ${useComponentStyle("cta")}
+`);
+```
+
+Theme components can be customised by adding a `ComponentTheme` for it under the `components` property.
 
 ```tsx
-type Components = {
-  cta: ComponentTheme<{ borderRadius: string }>;
-};
-
-const components: Components = {
-  cta: {
-    variants: {
-      mission: {
-        background: "pink",
+const theme = {
+  components: {
+    cta: {
+      variants: {
+        promotion: {
+          background: "pink",
+        },
+      },
+      style: {
+        textDecoration: "underline",
       },
     },
-    style: {
-      textDecoration: "underline",
-    },
-  },
+  }
 };
-```
-
-`useComponentStyle` is used to render the component styles (variants, elevation) for components. Accepts the name of the `ThemeComponent`. This should be called last. The `ThemeComponent` type adds the additional `variant` and `elevation` properties.
-
-```tsx
-const CTA = styled.button<ThemeComponent>`
-  text-decoration: none;
-  ${useComponentStyle("cta")}
-`;
 
 const Example = () => (
-  <CTA variant="mission" elevation="raised">
+  <CTA variant="promotion">
     Example
   </CTA>
 );
 ```
 
-## Responsive utilities
+The `ComponentTheme` works using styled component's `CSSObject` type. Any valid `CSSObject` can be passed to either `style` or to a names `variant` or `elevation`.
+
+```ts
+type ComponentTheme = {
+  style?: CSSObject;
+  variants?: Record<string, CSSObject>;
+  elevations?: Record<string, CSSObject>;
+};
+```
+
+## Media queries
 
 ### Media queries
 
-React hooks `useMediaQueryUp` and `useMediaQueryDown`. First argument is the breakpoint, can take either a breakpoint index or alias defined in the theme. Second argument can be either a style string or a CSSObject.
+Bento contains the media query hooks `useMediaQueryUp` and `useMediaQueryDown` which work with the `breakpoints` and `breakpointAliases` theme properties. First argument is the breakpoint which can either be a `breakpoints` index or a `breakpointAlias` key. The second argument can be either a style string or a `CSSObject`.
 
-```tsx
+```ts
 const CTA = styled.button`
   ${useMediaQueryUp(1, "color: red; background: green;")}
   ${useMediaQueryUp("small", { backgroundColor: 'red'})}
@@ -118,9 +109,9 @@ const CTA = styled.button`
 
 ### Responsive styles
 
-`useResponsiveStyle` is used to render a `ResponsiveValue` (either an array or single value). Takes the css property, the responsive value, and optionally, a formatter.
+The `useResponsiveStyle` hook works with the `breakpoints` theme property and is used to render a `ResponsiveValue` (either an array or single value). Takes the css property, the responsive value, and optionally, a formatter.
 
-```tsx
+```ts
 const CTA = styled.button<ThemeComponent>(
   ({ theme: { radii } }) => css`
     ${useResponsiveStyle("border-radius", radii.standard)}
@@ -129,77 +120,25 @@ const CTA = styled.button<ThemeComponent>(
 );
 ```
 
-## Color palettes
+A `ResponsiveValue` allows for values to be declared in relation to **ascending breakpoints** in the `breakpoints` theme property - the first value in an array will be the base style and `undefined`` values are skipped. For example, if we had two breakpoints we could create the following responsive style:
 
-Color Palettes are a group of colours containing a base, alt, contrast, and muted colour. Palettes classify a set of colours with defined contrast relationships. Essentially, `base` and `alt` should both be meet AA contrast requirements against top level the "canvas" color (typically white). The `contrast` and `muted` colours should meet AA contrast against `base` and `alt`.
+```ts
+const theme = {
+  breakpoints: ['480px', '768px']
+}
 
-TODO: is canvas required? (it could be its own palette), could potentially add a "surface" color to palettes.
-TODO: palette generation cli?
-
-```tsx
-const PrimaryPalette: ColorPalette = {
-  base: "#0C7494",
-  alt: "#096885",
-  contrast: "#F3F7F9",
-  muted: "#FFFFFF",
-};
+const CTA = styled.button`
+  ${useResponsiveStyle("padding", ['10px', undefined, '30px'])}
+`,
 ```
 
-Using palettes we can reliably put together components without needing to know what the colors are specifically. For example:
+This would result in the following `padding` values:
 
-```tsx
-const styleFromPalette = ({
-  base,
-  alt,
-  contrast,
-  muted,
-}: ColorPalette): CSSObject => ({
-  background: contrast,
-  color: base,
-  borderColor: base,
-  ":hover": {
-    background: muted,
-    color: alt,
-    borderColor: alt,
-  },
-});
-```
+- `10px` the base value.
+- `30px` from a screen width of `768px` and above.
 
-## Practices
+When a single value is passed to `useResponsiveStyle` it will be used as the base style, without any media queries. This defensive approach allows flexibility in the theme in a multi-brand context where some brands may want certain styles to be static rather than change based on screen size.
 
-### 🚧 WIP: Spreading props
+## Spacing
 
-When building basic, single element components such as a button, spreading props is fairly straightforward and styled-components takes care of it.
-
-```tsx
-const CTA = styled.button<ThemeComponent>(() => useComponentStyle("cta"));
-```
-
-However, when building components that are made up of multiple elements, it can be less obvious where props will spread to. To provide flexibility when extending styles and variants it's recommended to use `useComponentStyle` on the uppermost element where possible - as well as the style and class props. Remaining props can be spread to the most _logical_ element and documented accordingly.
-
-```tsx
-const Field = styled.div<ThemeComponent>(() => useComponentStyle("field"));
-
-type Props = JSX.IntrinsicElements["input"] & { label: string };
-const TextField = ({ label, className, style, ...rest }: Props) => {
-  return (
-    <Field className={className} style={style}>
-      <label>{label}</label>
-      <input type="text" {...rest} />
-    </Field>
-  );
-};
-```
-
-This allows variants and overrides that target all elements in the component, and make sure layout styles such as margin are applied to relevant outer element.
-
-```tsx
-const StyledField = styled(Field)`
-  color: goldenrod;
-  margin-top: 10px;
-
-  input {
-    border: 1px solid tomato;
-  }
-`;
-```
+TODO: add spacing components

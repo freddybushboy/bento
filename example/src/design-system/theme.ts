@@ -73,8 +73,8 @@ export const defaultTheme = {
 };
 
 type Components = {
-  cta?: ComponentTheme<{}>;
-  simple?: ComponentTheme<{}>;
+  cta?: ComponentTheme;
+  simple?: ComponentTheme;
 };
 
 export type Theme = BentoTheme<typeof defaultTokens, Components, typeof styles>;

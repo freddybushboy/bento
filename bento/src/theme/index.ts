@@ -1,15 +1,11 @@
 import { CSSObject } from "styled-components";
 export * from "../utils";
 
-export type ComponentTheme<T = Record<string, unknown>> = {
+export type ComponentTheme = {
   style?: CSSObject;
-  variants?: {
-    [k: string]: CSSObject;
-  };
-  elevations?: {
-    [k: string]: CSSObject;
-  };
-} & T;
+  variants?: Record<string, CSSObject>;
+  elevations?: Record<string, CSSObject>;
+};
 
 export type ColorPalette = Record<
   "base" | "alt" | "contrast" | "muted",
