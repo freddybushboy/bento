@@ -13,30 +13,37 @@ As well as **outlining a suggested theme structure**, there are concepts and uti
 
 ## Theme Spec
 
-The theme defines a set of values and constraints to keep consistency with the brand. The values in the theme can be used directly throughout applications.
+The theme defines a set of values and constraints to keep consistency with the brand.
+
+TODO: describe the methodology here, raw value -> semantic -> components etc
+
+Note that Bento utilities do not rely on this structure except where noted.
 
 | Key                 | Type                                       | Description                                                                                |
-| ------------------- | ------------------------------------------ | ------------------------------------------------------------------------------------------ |
-| `spaceScale`        | `string[];`                                | Spacing scale used for layouts. Multiples work well: `['0', '4px', '8px', '12px', ...etc]` |
-| `spaces`            | `Record<string, ResponsiveValue<string>>;` | Named sets of responsive spaces                                                          |
-| `sizes`             | `Record<string, ResponsiveValue<string>>;` | Common sizes not tied to space e.g. "touchArea"                                            |
+|---------------------|--------------------------------------------|--------------------------------------------------------------------------------------------|
+| `spaceScale`*       | `string[];`                                | Spacing scale used for layouts. Multiples work well: `['0', '4px', '8px', '12px', ...etc]` |
+| `sizes`*            | `Record<string, ResponsiveValue<string>>;` | Named sets of responsive spaces or common sizes not tied to space e.g. "touchArea"         |
 | `colors`            | `Record<string, string>;`                  |                                                                                            |
 | `palettes`          | `Record<string, ColorPalette>;`            |                                                                                            |
 | `fontScale`         | `string[];`                                |                                                                                            |
-| `fontSizes`         | `Record<string, ResponsiveValue<string>>;` | Named sets of responsive font sizes                                                       |
+| `fontSizes`         | `Record<string, ResponsiveValue<string>>;` | Named sets of responsive font sizes                                                        |
 | `fonts`             | `Record<string, string>;`                  |                                                                                            |
 | `fontWeights`       | `Record<string, string>;`                  |                                                                                            |
 | `lineHeights`       | `Record<string, string>;`                  |                                                                                            |
-| `breakpoints`       | `string[];`                                |                                                                                            |
+| `breakpoints`*      | `string[];`                                |                                                                                            |
 | `breakpointAliases` | `Record<string, number>;`                  | Aliases for the breakpoint indices used for mediaQuery utils                               |
+| `mediaQueries`      | `Record<string, string>;`                  | Named media queries                                                                        |
 | `radii`             | `Record<string, string>;`                  |                                                                                            |
 | `borderWidths`      | `Record<string, string>;`                  |                                                                                            |
 | `borderStyles`      | `Record<string, string>;`                  |                                                                                            |
 | `shadows`           | `Record<string, string>;`                  |                                                                                            |
 | `opacities`         | `Record<string, string>;`                  |                                                                                            |
 | `zIndices`          | `Record<string, string>;`                  |                                                                                            |
-| `styles`            | `Record<string, CSSObject>;`               | Reusable styles/mixins/transitions e.g. "focusRing"                                       |
-| `components`        | `Record<string, ComponentTheme>;`          | Theme components, see below                                                               |
+| `transitions`       | `Record<string, string>;`                  |                                                                                            |
+| `styles`            | `Record<string, CSSObject>;`               | Reusable styles/mixins/transitions e.g. "focusRing"                                        |
+| `components`*       | `Record<string, ComponentTheme>;`          | Theme components, see below                                                                |
+
+TODO describe space methodology.
 
 ## Theme Components
 
@@ -104,8 +111,8 @@ React hooks `useMediaQueryUp` and `useMediaQueryDown`. First argument is the bre
 
 ```tsx
 const CTA = styled.button`
-  ${useMediaQueryUp(1, "color: red;")}
-  ${useMediaQueryUp("small", "color: red;")}
+  ${useMediaQueryUp(1, "color: red; background: green;")}
+  ${useMediaQueryUp("small", { backgroundColor: 'red'})}
 `;
 ```
 
@@ -122,19 +129,12 @@ const CTA = styled.button<ThemeComponent>(
 );
 ```
 
-Can also be useful for exposing resposive values through props.
-
-```tsx
-const Spacer = styled.div<{ space: ResponsiveValue<string> }>(({ space }) =>
-  useResponsiveStyle("margin-top", space)
-);
-
-const Example = () => <Spacer space={["10px", "20px"]} />;
-```
-
 ## Color palettes
 
-Color Palettes are a group of colours containing a base, alt, contrast, and muted colour. Palettes classify a set of colours with defined contrast relationships. Essentially, `base` and `alt` should both be meet AA contrast requirements against the "canvas" color (typically white). The `contrast` and `muted` colours should meet AA contrast against `base` and `alt`.
+Color Palettes are a group of colours containing a base, alt, contrast, and muted colour. Palettes classify a set of colours with defined contrast relationships. Essentially, `base` and `alt` should both be meet AA contrast requirements against top level the "canvas" color (typically white). The `contrast` and `muted` colours should meet AA contrast against `base` and `alt`.
+
+TODO: is canvas required? (it could be its own palette), could potentially add a "surface" color to palettes.
+TODO: palette generation cli?
 
 ```tsx
 const PrimaryPalette: ColorPalette = {

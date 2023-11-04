@@ -1,47 +1,46 @@
 import { CSSObject, DefaultTheme, useTheme, css } from "styled-components";
 
+type BreakpointDirection = "up" | "down";
+
+const breakPoint = (breakpoint: string, direction: BreakpointDirection) =>
+  direction === "up"
+    ? breakPointToMqUp(breakpoint)
+    : breakPointToMqDown(breakpoint);
+
 export const breakPointToMqUp = (breakpoint: string) =>
   `@media screen and (min-width: ${breakpoint})`;
 
 export const breakPointToMqDown = (breakpoint: string) =>
   `@media screen and (max-width: calc(${breakpoint} - 1px))`;
 
-export const useMediaQueryUp = (
+const useMediaQuery = (
   breakpoint: number | keyof DefaultTheme["breakpointAliases"],
-  style: string | CSSObject
+  style: string | CSSObject,
+  direction: BreakpointDirection = "up"
 ) => {
   const { breakpoints, breakpointAliases } = useTheme();
-  let index;
-  if (typeof breakpoint === "string") {
-    index = breakpointAliases[breakpoint];
-  } else if (typeof breakpoint === "number") {
-    index = breakpoint;
-  }
+  const index =
+    typeof breakpoint === "string"
+      ? breakpointAliases[breakpoint]
+      : typeof breakpoint === "number"
+      ? breakpoint
+      : undefined;
+
   return typeof index !== "undefined"
     ? css`
-        ${breakPointToMqUp(breakpoints[index])} {
+        ${breakPoint(breakpoints[index], direction)} {
           ${style}
         }
       `
     : "";
 };
 
+export const useMediaQueryUp = (
+  breakpoint: number | keyof DefaultTheme["breakpointAliases"],
+  style: string | CSSObject
+) => useMediaQuery(breakpoint, style, "up");
+
 export const useMediaQueryDown = (
   breakpoint: number | keyof DefaultTheme["breakpointAliases"],
   style: string | CSSObject
-) => {
-  const { breakpoints, breakpointAliases } = useTheme();
-  let index;
-  if (typeof breakpoint === "string") {
-    index = breakpointAliases[breakpoint];
-  } else if (typeof breakpoint === "number") {
-    index = breakpoint;
-  }
-  return typeof index !== "undefined"
-    ? css`
-        ${breakPointToMqDown(breakpoints[index])} {
-          ${style}
-        }
-      `
-    : "";
-};
+) => useMediaQuery(breakpoint, style, "down");

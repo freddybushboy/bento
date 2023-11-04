@@ -16,12 +16,11 @@ export type ColorPalette = Record<
   string
 >;
 
-export type ResponsiveValue<T> = T | T[];
+export type ResponsiveValue<T = string | number> = T | T[];
 
 export type Tokens = {
   // Sizes
   spaceScale: string[];
-  spaces: Record<string, ResponsiveValue<string>>;
   sizes: Record<string, ResponsiveValue<string>>;
   fontScale: string[];
   fontSizes: Record<string, ResponsiveValue<string>>;
@@ -35,6 +34,7 @@ export type Tokens = {
   // Breakpoints
   breakpoints: string[];
   breakpointAliases: Record<string, number>;
+  mediaQueries: Record<string, string>;
   // Borders
   radii: Record<string, string>;
   borderWidths: Record<string, string>;
@@ -43,6 +43,8 @@ export type Tokens = {
   shadows: Record<string, string>;
   opacities: Record<string, string>;
   zIndices: Record<string, string>;
+  // Transitions
+  transitions: Record<string, string>;
 };
 
 export type Styles = Record<string, CSSObject>;

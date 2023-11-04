@@ -1,5 +1,6 @@
 import { css, useTheme } from "styled-components";
 import { breakPointToMqUp } from "./mediaQueries";
+import { ResponsiveValue } from "../theme";
 
 export type ThemeComponent = { variant?: string; elevation?: string };
 
@@ -19,10 +20,10 @@ export const useComponentStyle = (componentName: string) => {
   `;
 };
 
-export const useResponsiveStyle = (
+export const useResponsiveStyle = <T>(
   property: string,
-  value: any,
-  formatter?: (v: any) => string
+  value: ResponsiveValue<T>,
+  formatter?: (v: T) => string
 ) => {
   const { breakpoints } = useTheme();
   let values;
