@@ -2,21 +2,22 @@ import React from "react";
 import { ThemeProvider } from "styled-components";
 import { CTA } from "./design-system";
 import { theme } from "./theme";
+import { Stack } from "bento";
 
 const App = () => {
   return (
     <ThemeProvider theme={theme}>
-      <main>
-        <p>
+      <Stack spaceBetween="form">
+        <div>
           <CTA>Example</CTA>
-        </p>
-        <p>
+        </div>
+        <div>
           <CTA variant="mission">Example</CTA>
-        </p>
-        <p>
+        </div>
+        <div>
           <CTA elevation="raised">Example</CTA>
-        </p>
-      </main>
+        </div>
+      </Stack>
     </ThemeProvider>
   );
 };

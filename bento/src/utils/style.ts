@@ -22,10 +22,15 @@ export const useComponentStyle = (componentName: string) => {
 
 export const useResponsiveStyle = <T>(
   property: string,
-  value: ResponsiveValue<T>,
+  value?: ResponsiveValue<T>,
   formatter?: (v: T) => string
 ) => {
   const { breakpoints } = useTheme();
+
+  if (typeof value === "undefined") {
+    return "";
+  }
+
   const values = Array.isArray(value) ? value : [value];
 
   const ascMediaQueries = breakpoints.map(breakPointToMqUp);

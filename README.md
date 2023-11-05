@@ -107,7 +107,7 @@ const CTA = styled.button`
 `;
 ```
 
-### Responsive styles
+### Responsive utilities
 
 The `useResponsiveStyle` hook works with the `breakpoints` theme property and is used to render a `ResponsiveValue` (either an array or single value). Takes the css property, the responsive value, and optionally, a formatter.
 
@@ -141,4 +141,50 @@ When a single value is passed to `useResponsiveStyle` it will be used as the bas
 
 ## Spacing
 
-TODO: add spacing components
+Bento uses a space scale (`spaceScale` in the theme) as well as defining named sets of responsive sized (`sizes` in the theme). Bento makes it easy to work with these values with the `SpaceValue` type:
+
+```ts
+export type SpaceValue =
+  | keyof DefaultTheme["sizes"]
+  | ResponsiveValue<number | string>;
+```
+
+With this type we can allow responsive spaces to be defined or referenced in the following ways:
+
+- An index of the `spaceScale`, e.g. `4` references `spaceScale[4]`
+- An array of responsive `spaceScale` indices, e.g, `[4, 8]`
+- A key of the `sizes` object in the theme, e.g. `"formGap"` references `sizes.formGap`
+- A direct `ResponsiveValue`, e.g. `"8px"` or `["8px", "12px"]`
+
+The following utilities use the `SpaceValue` type.
+
+### The `useSpaceValue` hook
+
+This hook takes a `SpaceValue` and returns a `ResponsiveValue<string>` containing the values from the theme, any `spaceScale` indices will be swapped for their values. The result of this call can be used directly with `useResponsiveValue`:
+
+```ts
+const Example = styled.div<{ size: SpaceValue }>(({ size }) => css`
+  ${useResponsiveStyle("height", useSpaceValue(size))}
+`);
+```
+
+### Stack component
+
+The `Stack` component allows the construction of layouts with equal spacing using a `SpaceValue`.
+
+```tsx
+<Stack spaceBetween={[4, 8]}>
+  <div />
+  <div />
+  <div />
+</Stack>
+```
+
+### Margin component
+The `Margin` component allows the addition of margin around components without the need to directly alter the style of other components. Margin uses a `SpaceValue` and supports `top`, `bottom`, `vertical`, `left`, `right`, `horizontal`, and `all`.
+
+```tsx
+<Margin top={[2, 4]}>
+  <div />
+</Margin>
+```
