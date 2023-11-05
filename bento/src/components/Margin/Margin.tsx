@@ -10,25 +10,34 @@ type Props = {
   horizontal?: SpaceValue;
   vertical?: SpaceValue;
   all?: SpaceValue;
+  negative?: boolean;
 };
 
 const Margin = styled.div<Props>(
-  ({
-    theme: { spaceScale, sizes },
-    top,
-    bottom,
-    left,
-    right,
-    horizontal,
-    vertical,
-    all,
-  }) => {
+  ({ top, bottom, left, right, horizontal, vertical, all, negative }) => {
+    const negate = (value: string) => (negative ? `-${value}` : value);
     return css`
-      ${useResponsiveStyle("margin-left", useSpaceValue(horizontal || left))}
-      ${useResponsiveStyle("margin-right", useSpaceValue(horizontal || right))}
-      ${useResponsiveStyle("margin-top", useSpaceValue(vertical || top))}
-      ${useResponsiveStyle("margin-bottom", useSpaceValue(vertical || bottom))}
-      ${useResponsiveStyle("margin", useSpaceValue(all))}
+      ${useResponsiveStyle(
+        "margin-left",
+        useSpaceValue(horizontal || left),
+        negate
+      )}
+      ${useResponsiveStyle(
+        "margin-right",
+        useSpaceValue(horizontal || right),
+        negate
+      )}
+      ${useResponsiveStyle(
+        "margin-top",
+        useSpaceValue(vertical || top),
+        negate
+      )}
+      ${useResponsiveStyle(
+        "margin-bottom",
+        useSpaceValue(vertical || bottom),
+        negate
+      )}
+      ${useResponsiveStyle("margin", useSpaceValue(all), negate)}
     `;
   }
 );

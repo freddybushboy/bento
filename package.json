@@ -7,17 +7,29 @@
     "example": "yarn --cwd example run start",
     "start": "concurrently --kill-others -n example,bento -c cyan,magenta \"yarn example\" \"yarn --cwd bento run watch\"",
     "build": "yarn --cwd bento run prepare",
-    "test": "jest"
+    "test": "jest",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "devDependencies": {
     "@babel/core": "^7.12.3",
     "@babel/preset-env": "^7.12.1",
     "@babel/preset-typescript": "^7.12.1",
+    "@storybook/addon-essentials": "^7.5.2",
+    "@storybook/addon-interactions": "^7.5.2",
+    "@storybook/addon-links": "^7.5.2",
+    "@storybook/addon-onboarding": "^1.0.8",
+    "@storybook/blocks": "^7.5.2",
+    "@storybook/react": "^7.5.2",
+    "@storybook/react-webpack5": "^7.5.2",
+    "@storybook/testing-library": "^0.2.2",
     "@types/jest": "^26.0.15",
     "@types/lodash.get": "^4.4.6",
     "@types/styled-components": "^5.1.29",
     "babel-jest": "^26.6.3",
-    "concurrently": "^8.2.2"
+    "concurrently": "^8.2.2",
+    "prop-types": "^15.8.1",
+    "storybook": "^7.5.2"
   },
   "dependencies": {
     "jest": "^26.6.3",

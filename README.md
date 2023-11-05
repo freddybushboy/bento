@@ -188,3 +188,24 @@ The `Margin` component allows the addition of margin around components without t
   <div />
 </Margin>
 ```
+
+Margins can also be applied negatively, this can be useful when placing content inside a container with padding that you wish to extend to the outer edge of.
+
+```tsx
+<Card>
+  <Margin horizontal="card" negative>
+    <div />
+  </Margin>
+</Card>
+```
+
+### Box component
+
+The `Box` component functions similarly to the `Margin` component but instead uses `SpaceValue` to create a box with padding. Box supports `top`, `bottom`, `vertical`, `left`, `right`, `horizontal`, and `all`.
+
+```tsx
+<Box top={[2, 4]}>
+  <p>Check out my box!</p>
+</Box>
+```
+

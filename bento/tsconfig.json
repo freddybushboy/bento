@@ -1,21 +1,16 @@
 {
-    "compilerOptions": {
-        "allowSyntheticDefaultImports": true,
-        "moduleResolution": "node",
-        "target": "es5",
-        "strict": true,
-        "esModuleInterop": true,
-        "noUnusedLocals": true,
-        "jsx": "react",
-        "skipLibCheck": true,
-        "outDir": "dist",
-        "declaration": true,
-    },
-    "include": [
-        "./src/**/*.ts",
-        "./src/**/*.tsx"
-    ],
-    "exclude": [
-        "./src/**/*.spec.*"
-    ]
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "moduleResolution": "node",
+    "target": "es5",
+    "strict": true,
+    "esModuleInterop": true,
+    "noUnusedLocals": true,
+    "jsx": "react",
+    "skipLibCheck": true,
+    "outDir": "dist",
+    "declaration": true
+  },
+  "include": ["./src/**/*.ts", "./src/**/*.tsx"],
+  "exclude": ["./src/**/*.spec.*"]
 }
