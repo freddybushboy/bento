@@ -1,5 +1,4 @@
 import { CSSObject } from "styled-components";
-export * from "../utils";
 
 export type ComponentTheme = {
   style?: CSSObject;
@@ -15,9 +14,10 @@ export type ColorPalette = Record<
 export type ResponsiveValue<T = string | number> = T | T[];
 
 export type Tokens = {
-  // Sizes
+  // Space
   spaceScale: string[];
   sizes: Record<string, ResponsiveValue<string>>;
+  // Font sizes
   fontScale: string[];
   fontSizes: Record<string, ResponsiveValue<string>>;
   // Colors
@@ -28,9 +28,8 @@ export type Tokens = {
   fontWeights: Record<string, string>;
   lineHeights: Record<string, string>;
   // Breakpoints
-  breakpoints: string[];
-  breakpointAliases: Record<string, number>;
-  mediaQueries: Record<string, string>;
+  breakpointScale: string[];
+  breakpoints: Record<string, string>;
   // Borders
   radii: Record<string, string>;
   borderWidths: Record<string, string>;

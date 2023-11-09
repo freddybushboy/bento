@@ -1,6 +1,7 @@
 import React from "react";
 import { ThemeProvider } from "styled-components";
 import { theme } from "../example/src/theme";
+import "../bento/src/reset.css";
 
 /** @type { import('@storybook/react').Preview } */
 const preview = {

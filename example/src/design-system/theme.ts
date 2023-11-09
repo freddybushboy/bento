@@ -19,7 +19,12 @@ export const defaultTokens = {
   spaces: {
     standard: ["12px", "32px"],
   },
-  sizes: { touch: "40px", form: ["8px", "16px"] },
+  sizes: {
+    touch: "40px",
+    form: ["8px", "16px"],
+    gutter: ["16px", "32px"],
+    container: "1208px",
+  },
   colors: { primary: "#0C7494" },
   palettes: {
     primary: {

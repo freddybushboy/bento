@@ -14,21 +14,21 @@ export const breakPointToMqDown = (breakpoint: string) =>
   `@media screen and (max-width: calc(${breakpoint} - 1px))`;
 
 const useMediaQuery = (
-  breakpoint: number | keyof DefaultTheme["breakpointAliases"],
+  breakpoint: number | keyof DefaultTheme["breakpoints"],
   style: string | CSSObject,
   direction: BreakpointDirection = "up"
 ) => {
-  const { breakpoints, breakpointAliases } = useTheme();
-  const index =
+  const { breakpointScale, breakpoints } = useTheme();
+  const value =
     typeof breakpoint === "string"
-      ? breakpointAliases[breakpoint]
+      ? breakpoints[breakpoint]
       : typeof breakpoint === "number"
-      ? breakpoint
+      ? breakpointScale[breakpoint]
       : undefined;
 
-  return typeof index !== "undefined"
+  return typeof value !== "undefined"
     ? css`
-        ${breakPoint(breakpoints[index], direction)} {
+        ${breakPoint(value, direction)} {
           ${style}
         }
       `
@@ -36,11 +36,11 @@ const useMediaQuery = (
 };
 
 export const useMediaQueryUp = (
-  breakpoint: number | keyof DefaultTheme["breakpointAliases"],
+  breakpoint: number | keyof DefaultTheme["breakpoints"],
   style: string | CSSObject
 ) => useMediaQuery(breakpoint, style, "up");
 
 export const useMediaQueryDown = (
-  breakpoint: number | keyof DefaultTheme["breakpointAliases"],
+  breakpoint: number | keyof DefaultTheme["breakpoints"],
   style: string | CSSObject
 ) => useMediaQuery(breakpoint, style, "down");

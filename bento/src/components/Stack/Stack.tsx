@@ -4,10 +4,16 @@ import { SpaceValue, useSpaceValue } from "../../utils/space";
 
 const Stack = styled.div<{
   spaceBetween: SpaceValue;
+  direction?: "row" | "column";
 }>(
-  ({ spaceBetween }) => css`
+  ({ spaceBetween, direction = "column" }) => css`
+    display: flex;
+    flex-direction: ${direction};
     > * + * {
-      ${useResponsiveStyle("margin-top", useSpaceValue(spaceBetween))}
+      ${useResponsiveStyle(
+        direction === "column" ? "margin-top" : "margin-left",
+        useSpaceValue(spaceBetween)
+      )}
     }
   `
 );

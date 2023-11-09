@@ -17,13 +17,13 @@ As well as **outlining a suggested theme structure**, there are concepts and uti
 
 Bento utilities rely on the following theme properties. See the wider [theme spec recommendation](./docs/THEME_SPEC.md) for a more comprehensive spec.
 
-| Key                 | Type                                       | Description                                                                                                  |
-|---------------------|--------------------------------------------|--------------------------------------------------------------------------------------------------------------|
-| `spaceScale`        | `string[];`                                | An ascending spacing scale used for layouts. Multiples work well, e.g. `['0', '4px', '8px', '12px', ...etc]` |
-| `sizes`             | `Record<string, ResponsiveValue<string>>;` | Named sets of responsive spaces or common sizes not tied to space e.g. "touchArea"                           |
-| `breakpoints`       | `string[];`                                | An ascending set of breakpoints used when writing responsive styles, e.g. `['480px', '768px', '1208px']`     |
-| `breakpointAliases` | `Record<string, number>;`                  | Aliases for the breakpoint indices used for mediaQuery utils                                                 |
-| `components`        | `Record<string, ComponentTheme>;`          | Theme components, [see below](#theme-components)                                                                                  |
+| Key               | Type                                       | Description                                                                                                  |
+|-------------------|--------------------------------------------|--------------------------------------------------------------------------------------------------------------|
+| `spaceScale`      | `string[];`                                | An ascending spacing scale used for layouts. Multiples work well, e.g. `['0', '4px', '8px', '12px', ...etc]` |
+| `sizes`           | `Record<string, ResponsiveValue<string>>;` | Named sets of responsive spaces or common sizes not tied to space e.g. "touchArea"                           |
+| `breakpointScale` | `string[];`                                | An ascending set of breakpoints used when writing responsive styles, e.g. `['480px', '768px', '1208px']`     |
+| `breakpoints`     | `Record<string, string>;`                  | Named breakpoints which are not necessarily part of the breakpoint scale.                                    |
+| `components`      | `Record<string, ComponentTheme>;`          | Theme components, [see below](#theme-components)                                                             |
 
 
 ## Theme Components
@@ -98,7 +98,7 @@ type ComponentTheme = {
 
 ### Media queries
 
-Bento contains the media query hooks `useMediaQueryUp` and `useMediaQueryDown` which work with the `breakpoints` and `breakpointAliases` theme properties. First argument is the breakpoint which can either be a `breakpoints` index or a `breakpointAlias` key. The second argument can be either a style string or a `CSSObject`.
+Bento contains the media query hooks `useMediaQueryUp` and `useMediaQueryDown` which work with the `breakpointScale` and `breakpoints` theme properties. First argument is the breakpoint which can either be a `breakpointScale` index or a `breakpoints` key. The second argument can be either a style string or a `CSSObject`.
 
 ```ts
 const CTA = styled.button`
@@ -109,7 +109,7 @@ const CTA = styled.button`
 
 ### Responsive utilities
 
-The `useResponsiveStyle` hook works with the `breakpoints` theme property and is used to render a `ResponsiveValue` (either an array or single value). Takes the css property, the responsive value, and optionally, a formatter.
+The `useResponsiveStyle` hook works with the `breakpointScale` theme property and is used to render a `ResponsiveValue` (either an array or single value). Takes the css property, the responsive value, and optionally, a formatter.
 
 ```ts
 const CTA = styled.button<ThemeComponent>(
@@ -120,11 +120,11 @@ const CTA = styled.button<ThemeComponent>(
 );
 ```
 
-A `ResponsiveValue` allows for values to be declared in relation to **ascending breakpoints** in the `breakpoints` theme property - the first value in an array will be the base style and `undefined`` values are skipped. For example, if we had two breakpoints we could create the following responsive style:
+A `ResponsiveValue` allows for values to be declared in relation to **ascending breakpoints** in the `breakpointScale` theme property - the first value in an array will be the base style and `undefined` values are skipped. For example, if we had two breakpoints we could create the following responsive style:
 
 ```ts
 const theme = {
-  breakpoints: ['480px', '768px']
+  breakpointScale: ['480px', '768px']
 }
 
 const CTA = styled.button`
@@ -139,7 +139,7 @@ This would result in the following `padding` values:
 
 When a single value is passed to `useResponsiveStyle` it will be used as the base style, without any media queries. This defensive approach allows flexibility in the theme in a multi-brand context where some brands may want certain styles to be static rather than change based on screen size.
 
-## Spacing
+## Layout and Spacing
 
 Bento uses a space scale (`spaceScale` in the theme) as well as defining named sets of responsive sized (`sizes` in the theme). Bento makes it easy to work with these values with the `SpaceValue` type:
 
@@ -170,10 +170,20 @@ const Example = styled.div<{ size: SpaceValue }>(({ size }) => css`
 
 ### Stack component
 
-The `Stack` component allows the construction of layouts with equal spacing using a `SpaceValue`.
+The `Stack` component allows the construction of layouts with equal spacing using a `SpaceValue`. Note that Stack uses `display: flex;` so direct children will be treated as flex items.
 
 ```tsx
 <Stack spaceBetween={[4, 8]}>
+  <div />
+  <div />
+  <div />
+</Stack>
+```
+
+Be default, Stack uses a column layout, but row can be specified with the `direction` property.
+
+```tsx
+<Stack spaceBetween={[4, 8]} direction="row">
   <div />
   <div />
   <div />
@@ -209,3 +219,18 @@ The `Box` component functions similarly to the `Margin` component but instead us
 </Box>
 ```
 
+### Grid component
+
+TODO
+
+### Cluster component
+
+TODO
+
+### Switcher component
+
+TODO
+
+### Legacy grid component
+
+TODO

@@ -20,12 +20,15 @@ export const useComponentStyle = (componentName: string) => {
   `;
 };
 
+export const responsiveValueArray = <T>(value: ResponsiveValue<T>): T[] =>
+  Array.isArray(value) ? value : [value];
+
 export const useResponsiveStyle = <T>(
   property: string,
   value?: ResponsiveValue<T>,
   formatter?: (v: T) => string
 ) => {
-  const { breakpoints } = useTheme();
+  const { breakpointScale } = useTheme();
 
   if (typeof value === "undefined") {
     return "";
@@ -33,7 +36,7 @@ export const useResponsiveStyle = <T>(
 
   const values = Array.isArray(value) ? value : [value];
 
-  const ascMediaQueries = breakpoints.map(breakPointToMqUp);
+  const ascMediaQueries = breakpointScale.map(breakPointToMqUp);
   const [base, ...rest] = values;
 
   return css({

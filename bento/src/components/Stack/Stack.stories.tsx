@@ -1,26 +1,28 @@
 import React from "react";
 import { Stack } from "./Stack";
-import styled from "styled-components";
-import { Box } from "../Box";
+import { ExampleBlock } from "../ExampleBlock";
 
 export default {
   title: "Stack",
 };
 
-const Block = styled(Box)`
-  background: black;
-`;
-
 export const Basic = () => (
   <Stack spaceBetween={2}>
-    <Block all={2} />
-    <Block all={2} />
+    <ExampleBlock />
+    <ExampleBlock />
   </Stack>
 );
 
 export const Responsive = () => (
   <Stack spaceBetween={[2, 4, 6]}>
-    <Block all={2} />
-    <Block all={2} />
+    <ExampleBlock />
+    <ExampleBlock />
+  </Stack>
+);
+
+export const DirectionRow = () => (
+  <Stack spaceBetween={[2, 4, 6]} direction="row">
+    <ExampleBlock style={{ width: 60 }} />
+    <ExampleBlock style={{ width: 60 }} />
   </Stack>
 );
